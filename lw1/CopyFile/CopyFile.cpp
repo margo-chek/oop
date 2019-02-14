@@ -4,34 +4,34 @@
 
 using namespace std;
 
-int main(int argc, char * argv[])
+bool CopyFile(int parc, char * par1, char * par2)
 {
-	if (argc != 3)
+	if (parc != 3)
 	{
 		cout << "Invalid arguments count\n"
 			<< "Usage: copyfile.exe <input file> <output file>\n";
-		return 1;
+		return false;
 	}
 
 	// Объявили переменную типа ifstream 
 	// (input file stream, поток для чтения из файла), проинициализировав его
 	// именем входного файла
-	ifstream input(argv[1]);
+	ifstream input(par1);
 
 	// вызываем метод is_open() у объекта input,
 	// который вернет true, если файл был открыт
 	if (!input.is_open())
 	{
-		cout << "Failed to open " << argv[1] << " for reading\n";
-		return 1;
+		cout << "Failed to open " << par1 << " for reading\n";
+		return false;
 	}
 
 	// создали поток для записи в выходной файл
-	ofstream output(argv[2]);
+	ofstream output(par2);
 	if (!output.is_open())
 	{
-		cout << "Failed to open " << argv[2] << " for writing\n";
-		return 1;
+		cout << "Failed to open " << par2 << " for writing\n";
+		return false;
 	}
 
 	char ch;
@@ -42,15 +42,27 @@ int main(int argc, char * argv[])
 		if (!output.put(ch))
 		{
 			cout << "Failed to save data on disk\n";
-			return 1;
+			return false;
 		}
 	}
 
 	if (!output.flush()) // Если не удалось сбросить данные на диск
 	{
 		cout << "Failed to save data on disk\n";
-		return 1;
+		return false;
 	}
 
-	return 0;
+	return true;
+}
+
+int main(int argc, char * argv[])
+{
+	if (CopyFile(argc, argv[1], argv[2]))
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
 }
