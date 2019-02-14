@@ -33,7 +33,7 @@
     <Text Include="in.txt" />
     <Text Include="multiline.txt" />
     <Text Include="one-line.txt" />
-    <Text Include="out.txt" />
+    <Text Include="toupperIn.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.bat">

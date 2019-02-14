@@ -39,7 +39,7 @@ bool CopyFile(int parc, char * par1, char * par2)
 	// возвращаем значение, приводимое к bool, которое сигнализирует об успехе
 	while (input.get(ch))
 	{
-		if (!output.put(ch))
+		if (!output.put((char)toupper(ch)))
 		{
 			cout << "Failed to save data on disk\n";
 			return false;

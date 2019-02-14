@@ -22,6 +22,12 @@ if ERRORLEVEL 1 goto err
 fc.exe %TEMP%\multiline.txt multiline.txt
 if ERRORLEVEL 1 goto err
 
+rem провер¤ем копирование файла и замену на заглавные буквы
+%PROGRAM% in.txt %TEMP%\in.txt
+if ERRORLEVEL 1 goto err
+fc.exe %TEMP%\in.txt toupperIn.txt
+if ERRORLEVEL 1 goto err
+
 rem ожидаем ненулевой код ошибки при копировании несуществующего файла
 %PROGRAM% non-existing-file-name.txt %TEMP%\non-existing-file-name.txt > "%TEMP%\output.txt"
 if NOT ERRORLEVEL 1 goto err
