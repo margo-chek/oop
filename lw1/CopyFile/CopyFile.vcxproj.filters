@@ -34,6 +34,8 @@
     <Text Include="multiline.txt" />
     <Text Include="one-line.txt" />
     <Text Include="toupperIn.txt" />
+    <Text Include="multilineToUp.txt" />
+    <Text Include="one-lineToUp.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.bat">
