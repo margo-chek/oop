@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//лучше bool CopyFile(const string& inFileName, const string& outFileName)  // par1 = inFileName, par2 = outFileName
 bool CopyFile(int parc, char * par1, char * par2)
 {
 	if (parc != 3)
