@@ -29,8 +29,8 @@ int main(int argc, char * argv[])
 	}
 
 	try // try (пытаться) - начало блока исключений;
-	{  // stoi - извлекает знаковое целое число из строки str
-		int byte = std::stoi(argv[1]); // https://ru.cppreference.com/w/cpp/string/basic_string/stol
+	{  
+		int byte = std::stoi(argv[1]); // stoi - извлекает знаковое целое число из строки str
 		if (byte < 0 || byte > 255)
 		{
 			cout << "Input number is not in byte range.\n";
