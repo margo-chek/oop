@@ -19,21 +19,28 @@ uint8_t FlipByte(uint8_t byte) // uint8_t - Целый тип фиксирова
 	return outputByte;
 }
 
-int main(int argc, char * argv[])
+bool ParseCommandLine(int count, char argv[], int byte)
 {
-	if (argc != 2)
+	if (count != 2)
 	{
 		cout << "invalid argument count\n"
 			<< "usage: flipbyte.exe <byte>";
-		return 1;
+		return false;
 	}
+	if (byte < 0 || byte > 255)
+	{
+		cout << "Input number is not in byte range.\n";
+		return false;
+	}
+}
 
+int main(int argc, char * argv[])
+{
 	try // try (пытаться) - начало блока исключений;
 	{  
-		int byte = std::stoi(argv[1]); // stoi - извлекает знаковое целое число из строки str
-		if (byte < 0 || byte > 255)
+		int byte = stoi(argv[1]); // stoi - извлекает знаковое целое число из строки str
+		if (!ParseCommandLine(argc, argv[1], byte))
 		{
-			cout << "Input number is not in byte range.\n";
 			return 1;
 		}
 		cout << static_cast<int>(FlipByte(static_cast<uint8_t>(byte))) << "\n"; // static_cast - преобразует один статический тип, в другой
