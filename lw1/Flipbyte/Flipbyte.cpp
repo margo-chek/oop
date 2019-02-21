@@ -19,7 +19,7 @@ uint8_t FlipByte(uint8_t byte) // uint8_t - Целый тип фиксирова
 	return outputByte;
 }
 
-bool ParseCommandLine(int count, char argv[], int byte)
+bool ParseCommandLine(int count, char argv[], uint8_t byte)
 {
 	if (count != 2)
 	{
