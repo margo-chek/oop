@@ -42,7 +42,6 @@ int main(int argc, char * argv[])
 	try // try (пытаться) - начало блока исключений;
 	{  
 		uint8_t byte;
-		// uint8_t byte = stoi(argv[1]); // stoi - извлекает знаковое целое число из строки str
 		if (!ParseCommandLine(argc, argv, byte))
 		{
 			return 1;
