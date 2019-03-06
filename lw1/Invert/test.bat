@@ -3,108 +3,64 @@ rem %~1 - значение первого аргумента командной строки bat-файла с удалением обра
 
 rem Переменная PROGRAM будет хранить первый аргумент командной строки заключённый в кавычки
 set PROGRAM="%~1"
-
-rem При запуске без параметров ожидается ненулевой код возврата
-echo test1
-%PROGRAM% >nul
+rem проверяем отутствие аргументов
+%PROGRAM%  > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-
-rem При неудачном открытии файла ожидается ненулевой код возврата
-echo test2
-%PROGRAM% fileNotFound.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с правильными параметрами ожидается ненулевой код возврата(пустой файл)
-echo test3
-%PROGRAM% test-data\emptyFile.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с правильными параметрами ожидается ненулевой код возврата(некорректные данные в файле)
-echo test4
-%PROGRAM% test-data\matrixErr1.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с правильными параметрами ожидается ненулевой код возврата(некорректные данные в файле)
-echo test5
-%PROGRAM% test-data\matrixErr2.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с правильными параметрами ожидается ненулевой код возврата(определитель = 0)
-echo test6
-%PROGRAM% test-data\matrixErr3.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с правильными параметрами ожидается нулевой код возврата(исходный и результирующий файлы совпадают)
-echo test7
-%PROGRAM% test-data\matrix1.txt> "%TEMP%\invertedMatrixResult.txt" 
-fc.exe "%TEMP%\invertedMatrixResult.txt" test-data\invertedMatrix.txt > nul
+fc.exe %TEMP%\output.txt test\invalid_number_args.out
 if ERRORLEVEL 1 goto err
 
-rem При запуске с правильными параметрами ожидается нулевой код возврата(исходный и результирующий файлы не совпадают)
-echo test8
-%PROGRAM% test-data\matrix1.txt> "%TEMP%\invertedMatrixResult.txt" 
-fc.exe "%TEMP%\invertedMatrixResult.txt" test-data\invertedMatrixErr.txt > nul
+rem проверяем 2 аргумента
+%PROGRAM% test\matrix.in test\matrix.out > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt test\invalid_number_args.out
+if ERRORLEVEL 1 goto err
 
-echo OK
+rem проверяем отсутствие входного файла
+%PROGRAM% test\not_exist.in > %TEMP%\output.txt
+if NOT ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt test\file_not_exists.out
+if ERRORLEVEL 1 goto err
+
+rem проверяем посторонние символы в числах
+%PROGRAM% test\matrix_not_number.in > %TEMP%\output.txt
+if NOT ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt test\error_reading.out
+if ERRORLEVEL 1 goto err
+
+rem проверяем нехватку данных 3x2
+%PROGRAM% test\matrix_3x2.in > %TEMP%\output.txt
+if NOT ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt test\error_reading.out
+if ERRORLEVEL 1 goto err
+
+rem проверяем нехватку данных 2x3
+%PROGRAM% test\matrix_2x3.in > %TEMP%\output.txt
+if NOT ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt test\error_reading.out
+if ERRORLEVEL 1 goto err
+
+rem проверяем нехватку - пустой файл
+%PROGRAM% test\matrix_empty.in > %TEMP%\output.txt
+if NOT ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt test\error_reading.out
+if ERRORLEVEL 1 goto err
+
+rem проверяем правильную работу 	
+rem %PROGRAM% test\matrix.in > %TEMP%\output.txt
+rem if ERRORLEVEL 1 goto err
+rem fc.exe %TEMP%\output.txt test\matrix.out
+rem if ERRORLEVEL 1 goto err
+
+rem проверяем правильную работу при нулевом определителе 	
+%PROGRAM% test\matrix_det0.in > %TEMP%\output.txt
+if ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt test\matrix_det0.out
+if ERRORLEVEL 1 goto err
+
+
+echo Program testing succeeded
 exit 0
 
 :err
 echo Program testing failed
 exit 1
-
-
-
-
-
-
-
-
-
-
-
-rem При запуске с корректными параметрами ожидается ненулевой код возврата(выходной файл не найден)
-echo test5
-%PROGRAM% pack test-data\inputFile.txt test-data\fileNotFound.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с корректными параметрами ожидается нулевой код возврата(входной файл пустой, файл на выходе должен быть пустым)
-echo test6
-%PROGRAM% pack test-data\emptyInputFile.txt test-data\outputFile.txt >nul
-fc.exe test-data\outputFile.txt test-data\emptyInputFile.txt > nul
-if ERRORLEVEL 1 goto err
-
-rem При запуске с корректными параметрами ожидается нулевой код возврата(Длина последовательности одинаковых символов = 255)
-echo test7
-%PROGRAM% pack test-data\input_A_255.txt test-data\outputFile.txt >nul
-fc.exe test-data\outputFile.txt test-data\output_A_255.bin > nul
-if ERRORLEVEL 1 goto err
-
-rem При запуске с корректными параметрами ожидается нулевой код возврата(Длина последовательности одинаковых символов = 256)
-echo test8
-%PROGRAM% pack test-data\input_b_256.txt test-data\outputFile.txt >nul
-fc.exe test-data\outputFile.txt test-data\output_b_256.bin > nul
-if ERRORLEVEL 1 goto err
-
-rem При запуске с корректными параметрами ожидается нулевой код возврата(Длина последовательности одинаковых символов = 257)
-echo test9
-%PROGRAM% pack test-data\input_m_257.txt test-data\outputFile.txt >nul
-fc.exe test-data\outputFile.txt test-data\output_m_257.bin > nul
-if ERRORLEVEL 1 goto err
-
-rem При запуске с корректными параметрами ожидается нулевой код возврата(нечетная длина запакованного файла)
-echo test10
-%PROGRAM% unpack test-data\inputFileOddLength.txt test-data\outputFile.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с корректными параметрами ожидается нулевой код возврата(в запакованном файле есть кол-во символов = 0)
-echo test11
-%PROGRAM% unpack test-data\inputFileWithCountCharNull.bin test-data\outputFile.txt >nul
-if NOT ERRORLEVEL 1 goto err
-
-rem При запуске с корректными параметрами ожидается нулевой код возврата(фактический и ожидаемый результат совпадают)
-rem echo test12
-rem %PROGRAM% pack test-data\inputFile.txt test-data\outputFile.txt >nul
-rem %PROGRAM% unpack test-data\outputFile.txt "%TEMP%\decompressionFile.txt" >nul
-rem fc.exe test-data\inputFile.txt "%TEMP%\decompressionFile.txt" > nul
-rem if ERRORLEVEL 1 goto err

@@ -97,6 +97,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>test.bat  "$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -167,6 +170,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="test.bat" />
+    <None Include="tests\error_reading.out" />
+    <None Include="tests\file_not_exist.out" />
+    <None Include="tests\invalid_number_args.out" />
+    <None Include="tests\matrix.in" />
+    <None Include="tests\matrix.out" />
+    <None Include="tests\matrix_2x3.in" />
+    <None Include="tests\matrix_3x2.in" />
+    <None Include="tests\matrix_4x3.in" />
+    <None Include="tests\matrix_det0.in" />
+    <None Include="tests\matrix_det0.out" />
+    <None Include="tests\matrix_empty.in" />
+    <None Include="test\matrix_not_number.in" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="in.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

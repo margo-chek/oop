@@ -1,32 +1,33 @@
 ﻿#include "pch.h"
 
 using namespace std;
-typedef double Matrix3x3[3][3];
-const unsigned matrixSize = 3;
 
-void PrintMatrix3x3(const Matrix3x3 matrix)
+typedef double Matrix3x3[3][3]; // typedef - придать станд.типу новое имя и потом его использовать как стандартное
+const unsigned matrixSize = 3; //unsigned - неотрицательные значения
+
+void PrintMatrix3x3(const Matrix3x3 matrix) //15-ширина поля,вправо,фиксир,3 знака после плав.запятой
 {
-	for (int i = 0; i < matrixSize; i++)
+	for (size_t row = 0; row < matrixSize; row++)//size_t - беззнаковый целочисленный тип
 	{
-		for (int j = 0; j < matrixSize; j++)
-			cout << setw(15) << right << fixed << setprecision(3) << matrix[i][j];
+		for (size_t col = 0; col < matrixSize; col++)
+			cout << setw(15) << right << fixed << setprecision(3) << matrix[row][col] << " ";//setw - устанавливает ширину поля, которая будет использоваться в выходных операциях
 		cout << "\n";
 	}
 }
 
-double Calculate1Minor3x3(const Matrix3x3 matrix, int row, int col)
+double Calculate1Minor3x3(const Matrix3x3 matrix, size_t row, size_t col)
 {
 	double matrix2x2[2][2];
-	int iDst = 0, jDst = 0;
-	for (int iSrc = 0; iSrc < 3; iSrc++)
+	size_t rowDst = 0, colDst = 0;
+	for (size_t rowSrc = 0; rowSrc < matrixSize; rowSrc++)
 	{
-		jDst = 0;
-		if (iSrc != row)
+		colDst = 0;
+		if (rowSrc != row)
 		{
-			for (int jSrc = 0; jSrc < matrixSize; jSrc++)
-				if (jSrc != col)
-					matrix2x2[iDst][jDst++] = matrix[iSrc][jSrc];
-			iDst++;
+			for (size_t colSrc = 0; colSrc < matrixSize; colSrc++)
+				if (colSrc != col)
+					matrix2x2[rowDst][colDst++] = matrix[rowSrc][colSrc];
+			rowDst++;
 		}
 	}
 	return matrix2x2[0][0] * matrix2x2[1][1] - matrix2x2[0][1] * matrix2x2[1][0];
@@ -41,35 +42,35 @@ double CalculateDeterminant3x3(const Matrix3x3 matrix)
 	return det;
 }
 
-void TransposeMatrix3x3(const Matrix3x3 src, Matrix3x3 dst)
+void BuildMinorMatrix3x3(const Matrix3x3 src, Matrix3x3 dst) // матрица алгебр.дополнений
 {
-	for (int i = 0; i < matrixSize; i++)
-		for (int j = 0; j < matrixSize; j++)
-			dst[i][j] = src[j][i];
+	for (size_t row = 0; row < matrixSize; row++)
+		for (size_t col = 0; col < matrixSize; col++)
+		{
+			dst[row][col] = Calculate1Minor3x3(src, row, col);
+			if ((row + col) % 2)
+				dst[row][col] *= -1;
+		}
 }
 
-void BuildMinorMatrix3x3(const Matrix3x3 src, Matrix3x3 dst)
+void TransposeMatrix3x3(const Matrix3x3 src, Matrix3x3 dst)
 {
-	for (int i = 0; i < matrixSize; i++)
-		for (int j = 0; j < matrixSize; j++)
-		{
-			dst[i][j] = Calculate1Minor3x3(src, i, j);
-			if ((i + j) % 2)
-				dst[i][j] *= -1;
-		}
+	for (size_t row = 0; row < matrixSize; row++)
+		for (size_t col = 0; col < matrixSize; col++)
+			dst[row][col] = src[col][row];
 }
 
 void MultiMatrix3x3ByNum(Matrix3x3 matrix, double number)
 {
-	for (int i = 0; i < matrixSize; i++)
-		for (int j = 0; j < matrixSize; j++)
-			matrix[i][j] *= number;
+	for (size_t row = 0; row < matrixSize; row++)
+		for (size_t col = 0; col < matrixSize; col++)
+			matrix[row][col] *= number;
 }
 
 bool InvertMatrix(const Matrix3x3 src, Matrix3x3 dst)
 {
 	double determinant = CalculateDeterminant3x3(src);
-	if (fabs(determinant) < 0.1E-10)
+	if (fabs(determinant) < 0.1E-10) // fabs вычисляет абсолютное значение (модуль)
 		return false;
 
 	Matrix3x3 minor;
@@ -86,7 +87,7 @@ ifstream OpenFileForReading(const string & fileName)
 	{
 		cout << "Failed to open " << fileName << "\n";
 	}
-	return move(strm);
+	return move(strm); // move - эквивалент static_cast для rvalue в ссылочный тип
 }
 
 bool GetMatrix3x3FromFile(Matrix3x3 matrix, const string & fileName)
@@ -95,17 +96,17 @@ bool GetMatrix3x3FromFile(Matrix3x3 matrix, const string & fileName)
 	if (!inFile)
 		return false;
 
-	for (int i = 0; i < matrixSize; i++)
+	for (size_t row = 0; row < matrixSize; row++)
 	{
 		string str;
 		if (!getline(inFile, str))
 			return false;
-		istringstream row;
-		row.str(str);
-		for (int j = 0; j < matrixSize; j++)
+		istringstream rowIstr;
+		rowIstr.str(str);
+		for (size_t col = 0; col < matrixSize; col++)
 		{
-			row >> matrix[i][j];
-			if (row.fail())
+			rowIstr >> matrix[row][col];
+			if (rowIstr.fail())
 				return false;
 		}
 	}
@@ -114,12 +115,12 @@ bool GetMatrix3x3FromFile(Matrix3x3 matrix, const string & fileName)
 
 void MultiMatrix3x3(Matrix3x3 m1, Matrix3x3 m2, Matrix3x3 resultMatrix) //for checking
 {
-	for (int i = 0; i < matrixSize; i++)
-		for (int j = 0; j < matrixSize; j++)
+	for (size_t row = 0; row < matrixSize; row++)
+		for (size_t col = 0; col < matrixSize; col++)
 		{
-			resultMatrix[i][j] = 0;
-			for (int k = 0; k < matrixSize; k++)
-				resultMatrix[i][j] += m1[i][k] * m2[k][j];
+			resultMatrix[row][col] = 0;
+			for (size_t k = 0; k < matrixSize; k++)
+				resultMatrix[row][col] += m1[row][k] * m2[k][col];
 		}
 }
 

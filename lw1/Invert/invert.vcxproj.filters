@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\test">
+      <UniqueIdentifier>{1df0b777-7068-4f3f-aac2-70bbb58c7bc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -37,5 +40,44 @@
     <None Include="test.bat">
       <Filter>Исходные файлы</Filter>
     </None>
+    <None Include="tests\error_reading.out">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\file_not_exist.out">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix.in">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix.out">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix_2x3.in">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix_3x2.in">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix_4x3.in">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix_det0.in">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix_det0.out">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\matrix_empty.in">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="tests\invalid_number_args.out">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+    <None Include="test\matrix_not_number.in">
+      <Filter>Исходные файлы\test</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="in.txt" />
   </ItemGroup>
 </Project>
