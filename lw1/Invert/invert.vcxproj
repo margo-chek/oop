@@ -181,7 +181,7 @@
     <None Include="tests\matrix_det0.in" />
     <None Include="tests\matrix_det0.out" />
     <None Include="tests\matrix_empty.in" />
-    <None Include="test\matrix_not_number.in" />
+    <None Include="tests\matrix_not_number.in" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="in.txt" />

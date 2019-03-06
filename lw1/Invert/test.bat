@@ -3,58 +3,59 @@ rem %~1 - значение первого аргумента командной строки bat-файла с удалением обра
 
 rem Переменная PROGRAM будет хранить первый аргумент командной строки заключённый в кавычки
 set PROGRAM="%~1"
+
 rem проверяем отутствие аргументов
 %PROGRAM%  > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\invalid_number_args.out
+fc.exe %TEMP%\output.txt tests\invalid_number_args.out
 if ERRORLEVEL 1 goto err
 
 rem проверяем 2 аргумента
-%PROGRAM% test\matrix.in test\matrix.out > %TEMP%\output.txt
+%PROGRAM% tests\matrix.in tests\matrix.out > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\invalid_number_args.out
+fc.exe %TEMP%\output.txt tests\invalid_number_args.out
 if ERRORLEVEL 1 goto err
 
 rem проверяем отсутствие входного файла
-%PROGRAM% test\not_exist.in > %TEMP%\output.txt
+%PROGRAM% tests\not_exist.in > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\file_not_exists.out
+fc.exe %TEMP%\output.txt tests\file_not_exist.out
 if ERRORLEVEL 1 goto err
 
 rem проверяем посторонние символы в числах
-%PROGRAM% test\matrix_not_number.in > %TEMP%\output.txt
+%PROGRAM% tests\matrix_not_number.in > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\error_reading.out
+fc.exe %TEMP%\output.txt tests\error_reading.out
 if ERRORLEVEL 1 goto err
 
 rem проверяем нехватку данных 3x2
-%PROGRAM% test\matrix_3x2.in > %TEMP%\output.txt
+%PROGRAM% tests\matrix_3x2.in > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\error_reading.out
+fc.exe %TEMP%\output.txt tests\error_reading.out
 if ERRORLEVEL 1 goto err
 
 rem проверяем нехватку данных 2x3
-%PROGRAM% test\matrix_2x3.in > %TEMP%\output.txt
+%PROGRAM% tests\matrix_2x3.in > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\error_reading.out
+fc.exe %TEMP%\output.txt tests\error_reading.out
 if ERRORLEVEL 1 goto err
 
 rem проверяем нехватку - пустой файл
-%PROGRAM% test\matrix_empty.in > %TEMP%\output.txt
+%PROGRAM% tests\matrix_empty.in > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\error_reading.out
+fc.exe %TEMP%\output.txt tests\error_reading.out
 if ERRORLEVEL 1 goto err
 
 rem проверяем правильную работу 	
-rem %PROGRAM% test\matrix.in > %TEMP%\output.txt
-rem if ERRORLEVEL 1 goto err
-rem fc.exe %TEMP%\output.txt test\matrix.out
-rem if ERRORLEVEL 1 goto err
+%PROGRAM% tests\matrix.in > %TEMP%\output.txt
+if ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt tests\matrix.out
+if ERRORLEVEL 1 goto err
 
 rem проверяем правильную работу при нулевом определителе 	
-%PROGRAM% test\matrix_det0.in > %TEMP%\output.txt
+%PROGRAM% tests\matrix_det0.in > %TEMP%\output.txt
 if ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt test\matrix_det0.out
+fc.exe %TEMP%\output.txt tests\matrix_det0.out
 if ERRORLEVEL 1 goto err
 
 
