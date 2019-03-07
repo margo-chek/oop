@@ -2,8 +2,9 @@
 
 using namespace std;
 
-typedef double Matrix3x3[3][3]; // typedef - придать станд.типу новое имя и потом его использовать как стандартное
 const unsigned matrixSize = 3; //unsigned - неотрицательные значения
+typedef double Matrix3x3[matrixSize][matrixSize]; // typedef - придать станд.типу новое имя и потом его использовать как стандартное
+
 
 void PrintMatrix3x3(const Matrix3x3 matrix) //15-ширина поля,вправо,фиксир,3 знака после плав.запятой
 {
@@ -87,7 +88,7 @@ ifstream OpenFileForReading(const string & fileName)
 	{
 		cout << "Failed to open " << fileName << "\n";
 	}
-	return move(strm); // move - эквивалент static_cast для rvalue в ссылочный тип
+	return strm; 
 }
 
 bool GetMatrix3x3FromFile(Matrix3x3 matrix, const string & fileName)
