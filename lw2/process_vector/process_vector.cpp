@@ -3,11 +3,6 @@
 
 using namespace std;
 
-// int GetSymbol(int ch)
-// {
-// 	return ch;
-// }
-
 
 vector<double> GetVector(istream &input)
 {
