@@ -4,6 +4,12 @@
 
 using namespace std;
 
+// TEST_CASE("testing")
+// {
+//	REQUIRE(1 == GetSymbol(1));
+//	REQUIRE(2 == GetSymbol(1));
+// }
+
 bool IsEqually(const vector<double> &input, const vector<double> &output)
 {
 	return input == output;
@@ -23,6 +29,12 @@ TEST_CASE("all elements are multiplied by the minimum")
 	CHECK(IsEqually(numbers, { 100, 150, 130 }));
 }
 
+TEST_CASE("all elements are equal")
+{
+	vector<double> numbers = { 10, 10, 10 };
+	ProcessVector(numbers);
+	CHECK(IsEqually(numbers, { 100, 100, 100 }));
+}
 
 TEST_CASE("all elements are multiplied by the minimum = 0")
 {
