@@ -8,7 +8,7 @@ int main()
 	cout << "Enter your array: \n";
 	vector<double> numbers;
 
-	numbers = GetVector(cin);
+	numbers = GetNumbers(cin);
 	ProcessVector(numbers);
 	SortVector(numbers);
 	PrintVector(cout, numbers);

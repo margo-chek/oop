@@ -2,10 +2,9 @@
 
 #include "pch.h"
 
-// int GetSymbol(int ch);
 
 
-std::vector<double> GetVector(std::istream &input);
+std::vector<double> GetNumbers(std::istream& input);
 
 void ProcessVector(std::vector<double> &numbers);
 
