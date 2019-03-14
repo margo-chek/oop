@@ -4,12 +4,6 @@
 
 using namespace std;
 
-// TEST_CASE("testing")
-// {
-//	REQUIRE(1 == GetSymbol(1));
-//	REQUIRE(2 == GetSymbol(1));
-// }
-
 bool IsEqually(const vector<double> &input, const vector<double> &output)
 {
 	return input == output;
