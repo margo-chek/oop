@@ -30,13 +30,6 @@ TEST_CASE("input - empty vector, output - empty vector")
 	CHECK(ArraysAreEqual(numbers, {}));
 }
 
-TEST_CASE("all elements are multiplied by the minimum")
-{
-	vector<double> numbers = { 10, 15, 13 };
-	ProcessVector(numbers);
-	CHECK(ArraysAreEqual(numbers, { 100, 150, 130 }));
-}
-
 TEST_CASE("all elements are multiplied by the minimum(double elements)")
 {
 	vector<double> numbers = { -3.1, 2.1, 3.7 };

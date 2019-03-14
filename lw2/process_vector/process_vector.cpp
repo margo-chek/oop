@@ -4,7 +4,7 @@
 using namespace std;
 
 
-vector<double> GetVector(istream& input)
+vector<double> GetNumbers(istream& input)
 {
 	vector<double> numbers(istream_iterator<double>(cin), (istream_iterator<double>()));
 	return numbers;
