@@ -7,6 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "process_vector", "process_v
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "process_vector_test", "process_vector_test\process_vector_test.vcxproj", "{8742A0C4-D56C-41EF-843E-182E4FE1C3FA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C76CA92C-BB5B-4AF6-8EB7-665C57041025}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\user\Documents\GitHub\oop\.clang-format = C:\Users\user\Documents\GitHub\oop\.clang-format
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

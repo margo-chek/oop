@@ -14,4 +14,7 @@
 #include <stdio.h>
 #include <tchar.h>
 
+#include <cmath>
+#include <limits>
+
 #endif //PCH_H
