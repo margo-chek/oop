@@ -6,6 +6,11 @@ using namespace std;
 
 const double EPS = 0.0001;
 
+// TEST_CASE("testing")
+// {
+//	REQUIRE(1 == GetSymbol(1));
+//	REQUIRE(2 == GetSymbol(1));
+// }
 
 bool ArraysAreEqual(const vector<double>& input, const vector<double>& output)
 {

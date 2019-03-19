@@ -12,7 +12,7 @@ uint8_t FlipByte(uint8_t byte) // uint8_t - Целый тип фиксирова
 	for (int i = 0; i < 8; i++)
 	{
 		outputByte <<= 1; // Побитовый сдвиг влево, совмещённый с присваиванием
-		outputByte |= inputByte & 0x01; // вместо outputByte = inputByte & 0x01 | outputByte; 
+		outputByte |= inputByte & 0x01; // вместо outputByte = inputByte & 0x01 | outputByte;
 		inputByte >>= 1; // Побитовый сдвиг вправо, совмещённый с присваиванием
 	}
 
@@ -24,7 +24,7 @@ bool ParseCommandLine(int count, char* argv[], uint8_t& byte)
 	if (count != 2)
 	{
 		cout << "invalid argument count\n"
-			<< "usage: flipbyte.exe <byte>";
+			 << "usage: flipbyte.exe <byte>";
 		return false;
 	}
 	int number = stoi(argv[1]);
@@ -37,10 +37,10 @@ bool ParseCommandLine(int count, char* argv[], uint8_t& byte)
 	return true;
 }
 
-int main(int argc, char * argv[])
+int main(int argc, char* argv[])
 {
 	try // try (пытаться) - начало блока исключений;
-	{  
+	{
 		uint8_t byte;
 		if (!ParseCommandLine(argc, argv, byte))
 		{

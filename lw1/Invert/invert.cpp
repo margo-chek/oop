@@ -70,14 +70,16 @@ void MultiMatrix3x3ByNum(Matrix3x3 matrix, double number)
 
 bool InvertMatrix(const Matrix3x3 src, Matrix3x3 dst)
 {
+	const double EPS = 0.1E-10;
 	double determinant = CalculateDeterminant3x3(src);
-	if (fabs(determinant) < 0.1E-10) // fabs вычисляет абсолютное значение (модуль)
+	if (fabs(determinant) < EPS) // fabs вычисляет абсолютное значение (модуль)
 		return false;
 
 	Matrix3x3 minor;
 	BuildMinorMatrix3x3(src, minor);
 	TransposeMatrix3x3(minor, dst);
 	MultiMatrix3x3ByNum(dst, 1 / determinant);
+	MultiMatrix3x3ByNum(dst, 1 / determinant)  ;
 	return true;
 }
 
