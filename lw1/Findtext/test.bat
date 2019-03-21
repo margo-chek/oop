@@ -1,4 +1,3 @@
-rem test.bat "$(TargetPath)"
 rem %1 - значение первого аргумента командной строки bat-файла (какой он есть)
 rem %~1 - значение первого аргумента командной строки bat-файла с удалением обрамляющих кавычек (если они были)
 
@@ -45,12 +44,12 @@ if NOT ERRORLEVEL 1 goto err
 
 rem При запуске с правильными параметрами ожидается ненулевой код возврата (пустой файл)
 echo test8
-%PROGRAM% tests\emptyFile.txt "search line" >nul
+%PROGRAM% tests\emptyFile.txt "search line" > nul
 if NOT ERRORLEVEL 1 goto err
 
 rem При запуске с правильными параметрами ожидается ненулевой код возврата (пустая строка)
 echo test9
-%PROGRAM% tests\inputFile.txt "" >nul
+%PROGRAM% tests\inputFile.txt "" > nul
 if NOT ERRORLEVEL 1 goto err
 
 echo OK
