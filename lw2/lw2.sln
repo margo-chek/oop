@@ -9,8 +9,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "process_vector_test", "proc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C76CA92C-BB5B-4AF6-8EB7-665C57041025}"
 	ProjectSection(SolutionItems) = preProject
-		C:\Users\user\Documents\GitHub\oop\.clang-format = C:\Users\user\Documents\GitHub\oop\.clang-format
+		..\.clang-format = ..\.clang-format
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindAndReplace", "FindAndReplace\FindAndReplace.vcxproj", "{B889DC2F-7B08-436F-B05F-9D2263550CB6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindAndReplace-test", "FindAndReplace-test\FindAndReplace-test.vcxproj", "{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +40,22 @@ Global
 		{8742A0C4-D56C-41EF-843E-182E4FE1C3FA}.Release|x64.Build.0 = Release|x64
 		{8742A0C4-D56C-41EF-843E-182E4FE1C3FA}.Release|x86.ActiveCfg = Release|Win32
 		{8742A0C4-D56C-41EF-843E-182E4FE1C3FA}.Release|x86.Build.0 = Release|Win32
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Debug|x64.ActiveCfg = Debug|x64
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Debug|x64.Build.0 = Debug|x64
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Debug|x86.ActiveCfg = Debug|Win32
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Debug|x86.Build.0 = Debug|Win32
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Release|x64.ActiveCfg = Release|x64
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Release|x64.Build.0 = Release|x64
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Release|x86.ActiveCfg = Release|Win32
+		{B889DC2F-7B08-436F-B05F-9D2263550CB6}.Release|x86.Build.0 = Release|Win32
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Debug|x64.ActiveCfg = Debug|x64
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Debug|x64.Build.0 = Debug|x64
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Debug|x86.ActiveCfg = Debug|Win32
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Debug|x86.Build.0 = Debug|Win32
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Release|x64.ActiveCfg = Release|x64
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Release|x64.Build.0 = Release|x64
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Release|x86.ActiveCfg = Release|Win32
+		{4FC7448D-9B6E-4714-98F9-5FE48E21EC0E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
