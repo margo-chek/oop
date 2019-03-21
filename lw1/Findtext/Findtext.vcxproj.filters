@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{4b5ea533-fd5d-49a9-81f8-ca43fe7b86fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -28,9 +31,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.bat" />
+    <Text Include="tests\emptyFile.txt">
+      <Filter>tests</Filter>
+    </Text>
+    <Text Include="tests\inputFile.txt">
+      <Filter>tests</Filter>
+    </Text>
+    <Text Include="tests\resultAfterSearchNeed.txt">
+      <Filter>tests</Filter>
+    </Text>
+    <Text Include="tests\test.txt">
+      <Filter>tests</Filter>
+    </Text>
+    <Text Include="in.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="in.txt" />
+    <None Include="tests.bat" />
+    <None Include="test.bat" />
   </ItemGroup>
 </Project>
