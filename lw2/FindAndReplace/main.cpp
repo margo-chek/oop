@@ -2,13 +2,24 @@
 
 using namespace std;
 
+bool CheckArgumentCount(const int argumentCount)
+{
+
+	if (argumentCount != 4)
+	{
+		cerr << "Invalid count of arguments." << endl
+			 << "Usage: FindAndReplace.exe <input string> <search string> <replace string>"
+			 << endl;
+		return false;
+	}
+	return true;
+}
+
+
 int main(int argc, char* argv[])
 {
-	if (argc != 4)
+	if (!CheckArgumentCount(argc))
 	{
-		cout << "Invalid count of arguments." << endl
-				  << "Usage: FindAndReplace.exe <input string> <search string> <replace string>"
-				  << endl;
 		return 1;
 	}
 	string subject;
