@@ -6,4 +6,6 @@
 #include <fstream>
 #include <string>
 
+#include <optional>
+
 #endif //PCH_H

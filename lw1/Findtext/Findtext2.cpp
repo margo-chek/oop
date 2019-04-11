@@ -85,17 +85,14 @@ bool IsCommandLine(const string& inputFile, const string& searchString)
     return Args{argv[1], argv[2]};
   return null_opt;
 }*/
-Args ParseCmdLineArgs(int argc, char* argv[])
+bool ParseCmdLineArgs(int argc, char* argv[], Args& args)
 {
-	Args args;
 	if (argc == 3)
 	{
-		args.fileName = argv[1];
-		args.searchString = argv[2];
-		// args = Args{ argv[1], argv[2] };	
+		args = Args{ argv[1], argv[2] };
+		return true;
 	}
-
-	return agrs;
+	return false;
 }
 
 int main(int argc, char* argv[])
@@ -105,13 +102,12 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	
-	Args args = ParseCmdLineArgs(argc, argv); // возвращать args, не передавать args. В след. иф, проверять args 
-	if (!ParseCmdLineArgs(argc, argv)) // проверка на пустоту args
+	if (!ParseCmdLineArgs(argc, argv, args))
 	{
 		return 1;
 	}
 
-	pair<string, string> inputArguments = ParseCmdLineArgs(argc, argv); // не надо, уже есть в args
+	pair<string, string> inputArguments = ParseCmdLineArgs(argc, argv);
 	int matchesCount = SearchInFile(inputArguments.first, inputArguments.second); // SearchTextInFile
 
 	return 0;
