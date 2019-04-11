@@ -1,19 +1,21 @@
 ﻿#include "pch.h"
 #include "dictionary.h"
 
-std::ifstream OpenFileForReading(const std::string& fileName)
+using namespace std;
+
+ifstream OpenFileForReading(const string& fileName)
 {
-	std::ifstream strm(fileName);
+	ifstream strm(fileName);
 
 	if (!strm.is_open())
-		std::cout << "Failed to open " << fileName << "\n";
+		cerr << "Failed to open " << fileName << "\n";
 
 	return strm;
 }
 
-Dictionary LoadDictionary(const std::string& fileName)
+Dictionary LoadDictionary(const string& fileName)
 {
-	std::ifstream inputFile;
+	ifstream inputFile;
 	Dictionary dictionary;
 
 	inputFile = OpenFileForReading(fileName);
@@ -27,13 +29,13 @@ Dictionary LoadDictionary(const std::string& fileName)
 	return dictionary;
 }
 
-void AddTranslation(const std::string& word, const std::string& translation, Dictionary& dictionary)
+void AddTranslation(const string& word, const string& translation, Dictionary& dictionary)
 {
 	dictionary.insert({ word, translation });
 	dictionary.insert({ translation, word });
 }
 
-std::string FindTranslation(const std::string& word, const Dictionary& dictionary)
+string FindTranslation(const string& word, const Dictionary& dictionary)
 {
 	auto pairWordTranslation = dictionary.find(word);
 
@@ -45,16 +47,16 @@ std::string FindTranslation(const std::string& word, const Dictionary& dictionar
 		return {};
 }
 
-Dictionary ReadDictionary(std::istream& inputFile)
+Dictionary ReadDictionary(istream& inputFile)
 {
-	std::string word, translation;
+	string word, translation;
 	Dictionary dictionary;
 
 	dictionary.clear();
 
 	while (getline(inputFile, word) && (getline(inputFile, translation)))
 	{
-		std::string foundWord = FindTranslation(word, dictionary);
+		string foundWord = FindTranslation(word, dictionary);
 
 		if (foundWord.empty())
 		{
@@ -65,42 +67,42 @@ Dictionary ReadDictionary(std::istream& inputFile)
 	return dictionary;
 }
 
-void WriteDictionary(std::ostream& inputFile, const Dictionary& dictionary)
+void WriteDictionary(ostream& inputFile, const Dictionary& dictionary)
 {
 	for (auto& word : dictionary)
 	{
-		inputFile << word.first << std::endl
-				  << word.second << std::endl;
+		inputFile << word.first << endl
+				  << word.second << endl;
 	}
 }
 
-void AddNewWord(const std::string& word, Dictionary& dictionary, bool& dictionaryChange)
+void AddNewWord(const string& word, Dictionary& dictionary, bool& dictionaryChange)
 {
-	std::cout << "Неизвестное слово \"" << word << "\". Введите перевод или пустую строку для отказа." << std::endl;
-	std::cout << ">";
-	std::string translation;
-	getline(std::cin, translation);
+	cout << "Неизвестное слово \"" << word << "\". Введите перевод или пустую строку для отказа." << endl;
+	cout << ">";
+	string translation;
+	getline(cin, translation);
 
 	if (!translation.empty())
 	{
 		AddTranslation(word, translation, dictionary);
-		std::cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translation << "\"." << std::endl;
+		cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translation << "\"." << endl;
 		dictionaryChange = true;
 	}
 	else
 	{
-		std::cout << "Слово \"" << word << "\" проигнорировано." << std::endl;
+		cout << "Слово \"" << word << "\" проигнорировано." << endl;
 		dictionaryChange = false;
 	}
 }
 
-void ProcessInputString(const std::string& inputString, Dictionary& dictionary, bool& dictionaryChange)
+void ProcessInputString(const string& inputString, Dictionary& dictionary, bool& dictionaryChange)
 {
-	std::string foundWord = FindTranslation(inputString, dictionary);
+	string foundWord = FindTranslation(inputString, dictionary);
 
 	if (!foundWord.empty())
 	{
-		std::cout << foundWord << std::endl;
+		cout << foundWord << endl;
 	}
 	else
 	{
@@ -108,42 +110,42 @@ void ProcessInputString(const std::string& inputString, Dictionary& dictionary, 
 	}
 }
 
-void SaveDictionary(std::string inputFileName, const Dictionary& dictionary)
+void SaveDictionary(string inputFileName, const Dictionary& dictionary)
 {
 	char exit;
-	std::cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << std::endl;
+	cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << endl;
 
-	std::cout << ">";
-	std::cin >> exit;
+	cout << ">";
+	cin >> exit;
 
 	if ((exit == 'Y') || (exit == 'y'))
 	{
 		if (inputFileName.empty())
 		{
-			std::cout << "Введите название словаря." << std::endl;
-			std::cout << ">";
-			std::cin >> inputFileName;
+			cout << "Введите название словаря." << endl;
+			cout << ">";
+			cin >> inputFileName;
 		}
 
-		std::ofstream inputFile(inputFileName);
+		ofstream inputFile(inputFileName);
 		WriteDictionary(inputFile, dictionary);
-		std::cout << "Изменения сохранены. До свидания." << std::endl;
+		cout << "Изменения сохранены. До свидания." << endl;
 	}
 	else
 	{
-		std::cout << "Изменения не сохранены. До свидания." << std::endl;
+		cout << "Изменения не сохранены. До свидания." << endl;
 	}
 }
 
 bool ProcessUserInput(Dictionary& dictionary)
 {
-	std::string inputString;
+	string inputString;
 	bool dictionaryChange = false;
 
 	while (inputString != "...")
 	{
-		std::cout << ">";
-		getline(std::cin, inputString);
+		cout << ">";
+		getline(cin, inputString);
 
 		if ((inputString != "...") && (inputString != ""))
 		{
