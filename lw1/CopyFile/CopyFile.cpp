@@ -15,12 +15,10 @@ bool CopyFile(int parc, char * par1, char * par2)
 	}
 
 	// Объявили переменную типа ifstream 
-	// (input file stream, поток для чтения из файла), проинициализировав его
-	// именем входного файла
+	// (input file stream, поток для чтения из файла), проинициализировав его именем входного файла
 	ifstream input(par1);
 
-	// вызываем метод is_open() у объекта input,
-	// который вернет true, если файл был открыт
+	// вызываем метод is_open() у объекта input, который вернет true, если файл был открыт
 	if (!input.is_open())
 	{
 		cout << "Failed to open " << par1 << " for reading\n";
