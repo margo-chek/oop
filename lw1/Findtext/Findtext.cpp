@@ -6,15 +6,21 @@ using namespace std;
 using Args = pair<string, string>;
 using Vec = vector<size_t>;
 
-void PrintLineNumbersContainingString(ostream& output, const vector<size_t>& numberString) 
+optional<Args> ParseCmdLineArgs(const int argc, char* argv[])
 {
-	cout << fixed;
-	copy(numberString.begin(), numberString.end(), ostream_iterator<size_t>(output));
-	cout << endl;
+	Args argsValue;
+	if (argc != 3)
+	{
+		cerr << "Invalid argument count\n"
+			 << "Usage: findtext.exe <inputFile> <searchString>" << endl;
+		return nullopt;
+	}
+	argsValue = make_pair(argv[1], argv[2]);
+
+	return argsValue;
 }
 
-
-std::optional<Vec> SearchTextInFile(const string& inputFile, const string& searchString)
+optional<Vec> SearchTextInFile(const string& inputFile, const string& searchString)
 {
 	ifstream file(inputFile); // вместо ifstream file; 	file.open(inputFile);
 
@@ -34,12 +40,6 @@ std::optional<Vec> SearchTextInFile(const string& inputFile, const string& searc
 	size_t lineNumber = 0;
 	Vec numberString;
 
-	if (line.find(searchString) == string::npos)
-	{
-		cerr << "Text not found" << endl;
-		return nullopt;
-	}
-
 	while (getline(file, line))
 	{
 		++lineNumber;
@@ -50,21 +50,20 @@ std::optional<Vec> SearchTextInFile(const string& inputFile, const string& searc
 		}
 	}
 
+	if (numberString.empty())
+	{
+		cerr << "Text not found" << endl;
+		return nullopt;
+	}
+
 	return numberString;
 }
 
-optional<Args> ParseCmdLineArgs(const int argc, char* argv[])
+void PrintLineNumbersContainingString(ostream& output, const vector<size_t>& numberString) 
 {
-	Args argsValue;
-	if (argc != 3)
-	{
-		cerr << "Invalid argument count\n"
-			 << "Usage: findtext.exe <inputFile> <searchString>" << endl;
-		return nullopt;
-	}
-	argsValue = make_pair(argv[1], argv[2]);
-
-	return argsValue;
+	cout << fixed;
+	copy(numberString.begin(), numberString.end(), ostream_iterator<size_t>(output, "\n"));
+	cout << endl;
 }
 
 int main(int argc, char* argv[])
