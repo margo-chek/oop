@@ -46,7 +46,6 @@
     <Text Include="in.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="tests.bat" />
     <None Include="test.bat" />
   </ItemGroup>
 </Project>
