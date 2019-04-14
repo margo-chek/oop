@@ -6,19 +6,11 @@ using namespace std;
 using Args = pair<string, string>;
 using Vec = vector<size_t>;
 
-void PrintLineNumbersContainingString(ostream& output, const vector<size_t>& numberString) // 1 вариант
+void PrintLineNumbersContainingString(ostream& output, const vector<size_t>& numberString) 
 {
 	cout << fixed;
 	copy(numberString.begin(), numberString.end(), ostream_iterator<size_t>(output));
 	cout << endl;
-}
-
-void PrintLineNumbersContainingString(ostream& output, const vector<size_t>& numberString) // 2 вариант
-{
-	for (size_t n : numberString)
-	{
-		cout << n << '\n';
-	}
 }
 
 
