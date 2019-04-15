@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-typedef std::map<std::string, std::string> Dictionary;
+typedef std::multimap<std::string, std::string> Dictionary;
 
 std::ifstream OpenFileForReading(const std::string& fileName);
 
