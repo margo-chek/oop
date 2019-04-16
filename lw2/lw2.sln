@@ -26,7 +26,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DictonaryTest", "DictonaryT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "generatePrimeNumbersTest", "generatePrimeNumbersTest\generatePrimeNumbersTest.vcxproj", "{7CAE281E-9795-4E5D-B05D-F8BEFD2F7358}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "generatPrimeNumbers", "generatPrimeNumbers\generatPrimeNumbers.vcxproj", "{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "generatePrimeNumbers", "generatePrimeNumbers\generatePrimeNumbers.vcxproj", "{3DA832C7-7069-435E-A35B-D4AA30A2515A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,14 +108,14 @@ Global
 		{7CAE281E-9795-4E5D-B05D-F8BEFD2F7358}.Release|x64.Build.0 = Release|x64
 		{7CAE281E-9795-4E5D-B05D-F8BEFD2F7358}.Release|x86.ActiveCfg = Release|Win32
 		{7CAE281E-9795-4E5D-B05D-F8BEFD2F7358}.Release|x86.Build.0 = Release|Win32
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Debug|x64.ActiveCfg = Debug|x64
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Debug|x64.Build.0 = Debug|x64
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Debug|x86.ActiveCfg = Debug|Win32
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Debug|x86.Build.0 = Debug|Win32
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Release|x64.ActiveCfg = Release|x64
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Release|x64.Build.0 = Release|x64
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Release|x86.ActiveCfg = Release|Win32
-		{EC500E08-E76F-4E9A-8D1A-1CF9852343C0}.Release|x86.Build.0 = Release|Win32
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Debug|x64.ActiveCfg = Debug|x64
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Debug|x64.Build.0 = Debug|x64
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Debug|x86.ActiveCfg = Debug|Win32
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Debug|x86.Build.0 = Debug|Win32
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Release|x64.ActiveCfg = Release|x64
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Release|x64.Build.0 = Release|x64
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Release|x86.ActiveCfg = Release|Win32
+		{3DA832C7-7069-435E-A35B-D4AA30A2515A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
