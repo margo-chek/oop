@@ -7,12 +7,12 @@ int main(int argc, char* argv[])
 {
 	int upperBound;
 
-	if (!GetNumber(argv[1], upperBound) || (!CheckCountArgement(argc)))
+	if ((!CheckArgumentCount(argc)) || (!GetNumber(argv[1], upperBound)))
 	{
 		return 1;
 	}
 
-	set<size_t> primeNumbers = GeneratePrimeNumbersSet(upperBound);
+	set<int> primeNumbers = GeneratePrimeNumbersSet(upperBound);
 	PrintPrimeNumbers(cout, primeNumbers);
 
 	return 0;
