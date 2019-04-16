@@ -47,6 +47,17 @@ string FindTranslation(const string& word, const Dictionary& dictionary)
 		return {};
 }
 
+bool HaveSameTranslation(const string& word, const string& translation, const Dictionary& dictionary)
+{
+	auto range = dictionary.equal_range(word);
+	if (distance(range.first, range.second) == 0)
+		return false;
+
+	return any_of(range.first, range.second, [&](const auto& wordTranslationPair) -> bool {
+		return wordTranslationPair.second == translation;
+	});
+}
+
 Dictionary ReadDictionary(istream& inputFile)
 {
 	string word, translation;
@@ -58,9 +69,19 @@ Dictionary ReadDictionary(istream& inputFile)
 	{
 		string foundWord = FindTranslation(word, dictionary);
 
-		if (foundWord.empty())
+		if (!HaveSameTranslation(word, translation, dictionary))
 		{
-			AddTranslation(word, translation, dictionary);
+			dictionary.insert({ word, translation });
+		}
+
+		if (!HaveSameTranslation(translation, word, dictionary))
+		{
+			dictionary.insert({ translation, word });
+		}
+		
+		if (foundWord.empty()) // 
+		{
+			AddTranslation(word, translation, dictionary); // dictionary.insert({ translation, word });
 		}
 	}
 
