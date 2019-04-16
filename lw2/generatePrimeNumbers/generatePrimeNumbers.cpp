@@ -3,12 +3,12 @@
 
 using namespace std;
 
-bool CheckCountArgement(int countArgument)
+bool CheckArgumentCount(int countArgument)
 {
 	if (countArgument != 2)
 	{
 		cerr << "Invalid argument count\n"
-				  << "Usage: generatePrimeNumber.exe <upper bound>" << endl;
+			 << "Usage: generatePrimeNumber.exe <upper bound>" << endl;
 		return false;
 	}
 
@@ -30,26 +30,26 @@ bool GetNumber(const string& arg, int& upperBound)
 	if ((upperBound < 1) || (upperBound > 100000000))
 	{
 		cerr << "Invalid upper bound number\n"
-				  << "Use a number between 1 and 100000000" << endl;
+			 << "Use a number between 1 and 100000000" << endl;
 		return false;
 	}
 
 	return true;
 }
 
-void ExcludeMultiplesOf(size_t i, vector<bool>& isPrime)
+void ExcludeMultiplesOf(int i, vector<bool>& isPrime)
 {
-	for (size_t j = i * i; j < isPrime.size(); j += i)
+	for (int j = i * i; j < isPrime.size(); j += i)
 	{
 		isPrime[j] = false;
 	}
 }
 
-vector<bool> SiftEratosthenesSieve(size_t upperBound)
+vector<bool> SiftEratosthenesSieve(int upperBound)
 {
 	vector<bool> isPrime(upperBound + 1, true);
 
-	for (size_t i = 2; i * i < isPrime.size(); ++i)
+	for (int i = 2; i * i < isPrime.size(); ++i)
 	{
 		if (isPrime[i])
 		{
@@ -60,11 +60,19 @@ vector<bool> SiftEratosthenesSieve(size_t upperBound)
 	return isPrime;
 }
 
-set<size_t> GetPrimeNumbers(const vector<bool>& isPrime)
-{
-	set<size_t> primeNumbers;
+// emplace_hint  позволяет указать место, перед которым вставить элемент (непосредственно перед hint) БЫСТРЕЕ
+// В multimap всегда вставка произойдёт и вернётся итератор, там могут быть одинаковые пары ключ-значение
+// Если в контейнере все значения уникальны, то emplace_hint не вставит элемент, если он уже существует в контейнере
+// и вернёт итератор на тот, который есть в контейнере
 
-	for (size_t i = 2; i < isPrime.size(); ++i)
+// std::map emplace функции возвращают std::pair<iterator,bool>
+// emplace вставляет элемент куда угодно и возвращает пару итератора и bool значения, которое говорит о том, была ли вставка
+
+set<int> GetPrimeNumbers(const vector<bool>& isPrime)
+{
+	set<int> primeNumbers;
+
+	for (int i = 2; i < isPrime.size(); ++i)
 	{
 		if (isPrime[i])
 		{
@@ -75,14 +83,14 @@ set<size_t> GetPrimeNumbers(const vector<bool>& isPrime)
 	return primeNumbers;
 }
 
-void PrintPrimeNumbers(ostream& output, const set<size_t>& primeNumbers)
+void PrintPrimeNumbers(ostream& output, const set<int>& primeNumbers)
 {
 	copy(primeNumbers.begin(), primeNumbers.end(), ostream_iterator<int>(output, " "));
 }
 
-set<size_t> GeneratePrimeNumbersSet(size_t upperBound)
+set<int> GeneratePrimeNumbersSet(int upperBound)
 {
 	vector<bool> isPrime = SiftEratosthenesSieve(upperBound);
-	set<size_t> primeNumbers = GetPrimeNumbers(isPrime);
+	set<int> primeNumbers = GetPrimeNumbers(isPrime);
 	return primeNumbers;
 }
