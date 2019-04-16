@@ -79,10 +79,10 @@ Dictionary ReadDictionary(istream& inputFile)
 			dictionary.insert({ translation, word });
 		}
 		
-		if (foundWord.empty()) // 
+		/*if (foundWord.empty()) 
 		{
-			AddTranslation(word, translation, dictionary); // dictionary.insert({ translation, word });
-		}
+			AddTranslation(word, translation, dictionary); 
+		}*/
 	}
 
 	return dictionary;
