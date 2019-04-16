@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "../generatePrimeNumbers/generatePrimeNumbers.h"
 
-bool IsEqual(const std::set<size_t>& x, const std::set<size_t>& y)
+bool IsEqual(const std::set<int>& x, const std::set<int>& y)
 {
 	return x == y;
 }
