@@ -57,8 +57,12 @@ Dictionary ReadDictionary(istream& inputFile)
 	string word, translation;
 	Dictionary dictionary;
 
+	// dictionary.clear();
+
 	while (getline(inputFile, word) && (getline(inputFile, translation)))
 	{
+		// string foundWord = FindTranslation(word, dictionary);
+
 		if (!HaveSameTranslation(word, translation, dictionary))
 		{
 			dictionary.insert({ word, translation });
