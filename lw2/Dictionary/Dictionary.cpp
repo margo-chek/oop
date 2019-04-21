@@ -40,17 +40,23 @@ bool HaveSameTranslation(const string& word, const string& translation, const Di
 	});
 }
 
-string FindTranslation(const string& word, const Dictionary& dictionary)
-{
-	auto pairWordTranslation = dictionary.find(word);
 
-	if (pairWordTranslation != dictionary.end())
+vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
+{
+	auto rangeWordTranslation = dictionary.equal_range(word);
+	vector<string> translation;
+
+	if (distance(rangeWordTranslation.first, rangeWordTranslation.second) != 0) 
 	{
-		return { (*pairWordTranslation).second };
+		for_each(rangeWordTranslation.first, rangeWordTranslation.second, [&](const auto& currPair) -> void {
+			translation.push_back(currPair.second);
+		});
+		return translation;
 	}
 	else
 		return {};
 }
+
 
 Dictionary ReadDictionary(istream& inputFile)
 {
@@ -67,8 +73,7 @@ Dictionary ReadDictionary(istream& inputFile)
 		if (!HaveSameTranslation(translation, word, dictionary))
 		{
 			dictionary.insert({ translation, word });
-		}
-		
+		}	
 	}
 
 	return dictionary;
@@ -93,6 +98,7 @@ void AddNewWord(const string& word, Dictionary& dictionary, bool& dictionaryChan
 	if (!translation.empty())
 	{
 		dictionary.insert({ word, translation });
+		dictionary.insert({ translation, word });
 
 		cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translation << "\"." << endl;
 		dictionaryChange = true;
@@ -105,11 +111,12 @@ void AddNewWord(const string& word, Dictionary& dictionary, bool& dictionaryChan
 
 void ProcessInputString(const string& inputString, Dictionary& dictionary, bool& dictionaryChange)
 {
-	string foundWord = FindTranslation(inputString, dictionary); 
+	vector<string> foundWords = FindTranslation(inputString, dictionary); 
 
-	if (!foundWord.empty())
+	if (!foundWords.empty())
 	{
-		cout << foundWord << endl;
+		copy(foundWords.begin(), foundWords.end(), ostream_iterator<string>(cout, " "));
+		cout << endl;
 	}
 	else
 	{

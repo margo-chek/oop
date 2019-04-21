@@ -21,7 +21,7 @@ bool HaveSameTranslation(const std::string& word, const std::string& translation
 
 void AddNewWord(const std::string& inputString, Dictionary& dictionary, bool& dictionaryChange);
 
-std::string FindTranslation(const std::string& word, const Dictionary& dictionary);
+std::vector<std::string> FindTranslation(const std::string& word, const Dictionary& dictionary);
 
 Dictionary ReadDictionary(std::istream& inputFile);
 
