@@ -3,24 +3,32 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int argc, const char* argv[])
 {
 	SetConsoleCP(1251); // установка кодовой страницы win-cp 1251 в поток ввода
 	SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
 
 	string fileName;
-	Dictionary dictionary;
-	bool isChangeDictionary = false;
+	Dictionary dictionary{};
 
-	if (argc == 2)
+	try
 	{
-		fileName = argv[1];
+		fileName = ParseCommandLine(argc, argv);
+
 		dictionary = LoadDictionary(fileName);
 	}
+	catch (const invalid_argument& err)
+	{
+		cout << err.what() << endl;
 
-	isChangeDictionary = ProcessUserInput(dictionary);
+		return 1;
+	}
 
-	if (isChangeDictionary)
+	bool didDictionaryChange = false;
+
+	didDictionaryChange = ProcessUserInput(dictionary);
+
+	if (didDictionaryChange)
 	{
 		SaveDictionary(fileName, dictionary);
 	}
