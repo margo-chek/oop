@@ -67,7 +67,6 @@ vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
 Dictionary ReadDictionary(Dictionary& dictionary)
 {
 	ifstream inputFile;
-	Dictionary dictionary{};
 	
 	inputFile = OpenFileForReading(dictionary.dictionaryFileName);
 	inputFile.close();
@@ -137,7 +136,7 @@ void ProcessInputString(const string& inputString, Dictionary& dictionary)
 	}
 }
 
-void SaveDictionary(const Dictionary& dictionary)
+void SaveDictionary(Dictionary& dictionary)
 {
 	char exit;
 	cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << endl;
