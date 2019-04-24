@@ -24,11 +24,7 @@ int main(int argc, const char* argv[])
 		return 1;
 	}
 
-	bool didDictionaryChange = false;
-
-	didDictionaryChange = ProcessUserInput(dictionary);
-
-	if (didDictionaryChange)
+	if (ProcessUserInput(dictionary))
 	{
 		SaveDictionary(fileName, dictionary);
 	}

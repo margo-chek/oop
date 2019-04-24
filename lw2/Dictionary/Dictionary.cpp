@@ -25,17 +25,10 @@ ifstream OpenFileForReading(const string& fileName)
 
 Dictionary LoadDictionary(const string& fileName)
 {
-	ifstream inputFile;
 	Dictionary dictionary{};
 	dictionary.dictionaryFileName = fileName;
 
-	inputFile = OpenFileForReading(fileName);
-
-	if (inputFile)
-	{
-		dictionary = ReadDictionary(inputFile);
-		inputFile.close();
-	}
+	dictionary = ReadDictionary(dictionary);
 
 	return dictionary;
 }
@@ -71,10 +64,15 @@ vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
 }
 
 
-Dictionary ReadDictionary(istream& inputFile)
+Dictionary ReadDictionary(Dictionary& dictionary)
 {
-	string word, translation;
+	ifstream inputFile;
 	Dictionary dictionary{};
+	
+	inputFile = OpenFileForReading(dictionary.dictionaryFileName);
+	inputFile.close();
+
+	string word, translation;
 
 	while (getline(inputFile, word) && getline(inputFile, translation))
 	{
@@ -92,11 +90,13 @@ Dictionary ReadDictionary(istream& inputFile)
 	return dictionary;
 }
 
-void WriteDictionary(ostream& inputFile, const Dictionary& dictionary)
+void WriteDictionary(const Dictionary& dictionary)
 {
+	ofstream outputFile(dictionary.dictionaryFileName); 
+
 	for (auto& range : dictionary.dict)
 	{
-		inputFile << range.first << endl
+		outputFile << range.first << endl
 				  << range.second << endl;
 	}
 }
@@ -137,7 +137,7 @@ void ProcessInputString(const string& inputString, Dictionary& dictionary)
 	}
 }
 
-void SaveDictionary(string inputFileName, const Dictionary& dictionary)
+void SaveDictionary(const Dictionary& dictionary)
 {
 	char exit;
 	cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << endl;
@@ -147,16 +147,14 @@ void SaveDictionary(string inputFileName, const Dictionary& dictionary)
 
 	if ((exit == 'Y') || (exit == 'y'))
 	{
-		ofstream inputFile(dictionary.dictionaryFileName); 
-
-		if (inputFileName.empty())
+		if (dictionary.dictionaryFileName.empty())
 		{
 			cout << "Введите название словаря." << endl;
 			cout << ">";
-			cin >> inputFileName;
+			cin >> dictionary.dictionaryFileName;
 		}
 
-		WriteDictionary(inputFile, dictionary);
+		WriteDictionary(dictionary);
 		cout << "Изменения сохранены. До свидания." << endl;
 	}
 	else
