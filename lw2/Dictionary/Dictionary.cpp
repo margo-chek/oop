@@ -30,7 +30,7 @@ Dictionary LoadDictionary(const string& fileName)
 	Dictionary dictionary{};
 	dictionary.dictionaryFileName = fileName;
 
-	dictionary = ReadDictionary(dictionary);
+	ReadDictionary(dictionary);
 
 	return dictionary;
 }
@@ -65,22 +65,22 @@ vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
 	
 }
 
-
+/*
 void ToLower(string& str)
 {
 	transform(str.begin(), str.end(), str.begin(), towlower);
-}
+}*/
 
-Dictionary ReadDictionary(Dictionary& dictionary)
+void ReadDictionary(Dictionary& dictionary)
 {
 	ifstream inputFile = OpenFileForReading(dictionary.dictionaryFileName);
 
 	string word, translation;
 
-	while (getline(inputFile, word) && getline(inputFile, translation))
+	while (std::getline(inputFile, word) && std::getline(inputFile, translation))
 	{
-		ToLower(word);
-		ToLower(translation);
+		// ToLower(word);
+		// ToLower(translation);
 		if (!HaveSameTranslation(word, translation, dictionary))
 		{
 			dictionary.dict.insert({ word, translation });
@@ -91,8 +91,6 @@ Dictionary ReadDictionary(Dictionary& dictionary)
 			dictionary.dict.insert({ translation, word });
 		}	
 	}
-
-	return dictionary;
 }
 
 void WriteDictionary(const Dictionary& dictionary)
@@ -111,9 +109,9 @@ void AddNewWord(const string& word, Dictionary& dictionary)
 	cout << "Неизвестное слово \"" << word << "\". Введите перевод или пустую строку для отказа." << endl;
 	cout << ">";
 	string translation;
-	getline(cin, translation);
+	std::getline(cin, translation);
 
-	ToLower(translation);
+	// ToLower(translation);
 
 	if (!translation.empty())
 	{
@@ -175,7 +173,7 @@ string GetUserInput(istream& inputStream)
 	string inputString;
 
 	cout << ">";
-	getline(inputStream, inputString);
+	std::getline(inputStream, inputString);
 
 
 	return inputString;
@@ -185,9 +183,8 @@ void ProcessUserInput(const string& userInput, Dictionary& dictionary)
 {
 	if (userInput == "..." || userInput == "")
 		return;
-	{
+	
 	ProcessInputString(userInput, dictionary);
-		dictionary.wasEdited = true;
-	}
+
 }
 

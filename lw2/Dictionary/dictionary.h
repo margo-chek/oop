@@ -33,9 +33,9 @@ void AddNewWord(const std::string& inputString, Dictionary& dictionary);
 
 std::vector<std::string> FindTranslation(const std::string& word, const Dictionary& dictionary);
 
-void ToLower(std::string& str);
+// void ToLower(std::string& str);
 
-Dictionary ReadDictionary(Dictionary& dictionary);
+void ReadDictionary(Dictionary& dictionary);
 
 void WriteDictionary(const Dictionary& dictionary);
 
