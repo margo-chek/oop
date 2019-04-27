@@ -33,10 +33,14 @@ void AddNewWord(const std::string& inputString, Dictionary& dictionary);
 
 std::vector<std::string> FindTranslation(const std::string& word, const Dictionary& dictionary);
 
-Dictionary ReadDictionary(std::istream& inputFile);
+void ToLower(std::string& str);
 
-void WriteDictionary(std::ostream& inputFile, const Dictionary& dictionary);
+Dictionary ReadDictionary(Dictionary& dictionary);
 
-void SaveDictionary(std::string fileName, const Dictionary& dictionary);
+void WriteDictionary(const Dictionary& dictionary);
 
-bool ProcessUserInput(Dictionary& dictionary);
+void SaveDictionary(Dictionary& dictionary);
+
+std::string GetUserInput(std::istream& inputStream);
+
+void ProcessUserInput(const std::string& userInput, Dictionary& dictionary);

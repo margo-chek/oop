@@ -20,6 +20,8 @@ ifstream OpenFileForReading(const string& fileName)
 	if (!strm.is_open())
 		cerr << "Failed to open " << fileName << "\n";
 
+	// ToLower(strm);
+
 	return strm;
 }
 
@@ -64,17 +66,21 @@ vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
 }
 
 
+void ToLower(string& str)
+{
+	transform(str.begin(), str.end(), str.begin(), towlower);
+}
+
 Dictionary ReadDictionary(Dictionary& dictionary)
 {
-	ifstream inputFile;
-	
-	inputFile = OpenFileForReading(dictionary.dictionaryFileName);
-	inputFile.close();
+	ifstream inputFile = OpenFileForReading(dictionary.dictionaryFileName);
 
 	string word, translation;
 
 	while (getline(inputFile, word) && getline(inputFile, translation))
 	{
+		ToLower(word);
+		ToLower(translation);
 		if (!HaveSameTranslation(word, translation, dictionary))
 		{
 			dictionary.dict.insert({ word, translation });
@@ -106,6 +112,8 @@ void AddNewWord(const string& word, Dictionary& dictionary)
 	cout << ">";
 	string translation;
 	getline(cin, translation);
+
+	ToLower(translation);
 
 	if (!translation.empty())
 	{
@@ -162,21 +170,24 @@ void SaveDictionary(Dictionary& dictionary)
 	}
 }
 
-bool ProcessUserInput(Dictionary& dictionary)
+string GetUserInput(istream& inputStream)
 {
 	string inputString;
 
-	while (inputString != "...")
-	{
-		cout << ">";
-		getline(cin, inputString);
+	cout << ">";
+	getline(inputStream, inputString);
 
-		if (inputString != "..." && inputString != "")
-		{
-			ProcessInputString(inputString, dictionary);
-		}
-	}
 
-	return dictionary.wasEdited = true;
-	;
+	return inputString;
 }
+
+void ProcessUserInput(const string& userInput, Dictionary& dictionary)
+{
+	if (userInput == "..." || userInput == "")
+		return;
+	{
+	ProcessInputString(userInput, dictionary);
+		dictionary.wasEdited = true;
+	}
+}
+

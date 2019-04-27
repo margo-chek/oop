@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "dictionary.h"
 
+
 using namespace std;
 
 int main(int argc, const char* argv[])
@@ -24,9 +25,16 @@ int main(int argc, const char* argv[])
 		return 1;
 	}
 
-	if (ProcessUserInput(dictionary))
+	string inputString;
+	while (inputString != "...")
 	{
-		SaveDictionary(fileName, dictionary);
+		inputString = GetUserInput(cin);
+		ProcessUserInput(inputString, dictionary);
+	}
+
+	if (dictionary.wasEdited)
+	{
+		SaveDictionary(dictionary);
 	}
 	else
 	{
@@ -35,3 +43,4 @@ int main(int argc, const char* argv[])
 
 	return 0;
 }
+
