@@ -20,7 +20,7 @@ ifstream OpenFileForReading(const string& fileName)
 	if (!strm.is_open())
 		cerr << "Failed to open " << fileName << "\n";
 
-	// ToLower(strm);
+	// ToLowerCase(strm);
 
 	return strm;
 }
@@ -64,12 +64,40 @@ vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
 	return translation;
 	
 }
-
 /*
-void ToLower(string& str)
+string const ToLower(const string& str)
 {
-	transform(str.begin(), str.end(), str.begin(), towlower);
-}*/
+	wstring strToTransform = L"str";
+	transform(strToTransform.begin(), strToTransform.end(), strToTransform.begin(), ::tolower);
+	string strToTransform2(strToTransform.begin(), strToTransform.end());
+	return strToTransform2;
+}
+
+string const ToLower(string& str)
+{
+	for_each(str.begin(), str.end(), [](char& strToTransform)
+	{ strToTransform = tolower(static_cast<unsigned char>(strToTransform)); });
+	return strToTransform;
+}
+*/
+bool isUpperCaseCharacter(unsigned char character)
+{
+	return (character >= 0x41 && character <= 0x5A) || (character >= 0xC0 && character <= 0xDF) || character == 0xA8;
+}
+
+void ToLowerCase(string& word)
+{
+	for (size_t i = 0; i < word.length(); i++)
+	{
+		auto currentCharacter = static_cast<unsigned char>(word[i]);
+
+		if (isUpperCaseCharacter(currentCharacter))
+		{
+			currentCharacter == 0xA8 ? currentCharacter += 16 : currentCharacter += 32;
+			word[i] = currentCharacter;
+		}
+	}
+}
 
 void ReadDictionary(Dictionary& dictionary)
 {
@@ -79,8 +107,8 @@ void ReadDictionary(Dictionary& dictionary)
 
 	while (std::getline(inputFile, word) && std::getline(inputFile, translation))
 	{
-		// ToLower(word);
-		// ToLower(translation);
+		ToLowerCase(word);
+		ToLowerCase(translation);
 		if (!HaveSameTranslation(word, translation, dictionary))
 		{
 			dictionary.dict.insert({ word, translation });
@@ -111,7 +139,7 @@ void AddNewWord(const string& word, Dictionary& dictionary)
 	string translation;
 	std::getline(cin, translation);
 
-	// ToLower(translation);
+	ToLowerCase(translation);
 
 	if (!translation.empty())
 	{

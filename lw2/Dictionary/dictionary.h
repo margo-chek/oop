@@ -33,7 +33,9 @@ void AddNewWord(const std::string& inputString, Dictionary& dictionary);
 
 std::vector<std::string> FindTranslation(const std::string& word, const Dictionary& dictionary);
 
-// void ToLower(std::string& str);
+bool isUpperCaseCharacter(unsigned char character);
+
+void ToLowerCase(std::string& word);
 
 void ReadDictionary(Dictionary& dictionary);
 
