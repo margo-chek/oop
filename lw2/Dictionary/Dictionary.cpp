@@ -203,6 +203,7 @@ string GetUserInput(istream& inputStream)
 	cout << ">";
 	std::getline(inputStream, inputString);
 
+	ToLowerCase(inputString);
 
 	return inputString;
 }
