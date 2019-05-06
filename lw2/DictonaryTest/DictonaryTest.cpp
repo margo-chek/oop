@@ -1,54 +1,66 @@
 ﻿#include "pch.h"
 #include "../Dictionary/dictionary.h"
 #include <sstream>
-
-bool IsEqual(const std::string& x, const std::string& y)
-{
-	return x == y;
-}
+#include <string>
+#include <vector>
+#include <map>
 
 bool IsEqualDictionary(const Dictionary& x, const Dictionary& y)
 {
-	return x == y;
+	return x.dict == y.dict && x.dictionaryFileName == y.dictionaryFileName && x.wasEdited == y.wasEdited;
 }
 
-TEST_CASE("FindTranslation returns empty string if no translation")
+TEST_CASE("FindTranslation returns empty vector if no translation")
 {
 	Dictionary dictionary;
-	dictionary.insert({ "hamster", "хомяк" });
-	auto word = FindTranslation("cat", dictionary);
-	CHECK(IsEqual(word, ""));
+	dictionary.dict.insert({ "hamster", "хомяк" });
+	std::vector<std::string> word = FindTranslation("cat", dictionary);
+	std::vector<std::string> emptyVector;
+	CHECK(word == emptyVector);
 }
 
 TEST_CASE("FindTranslation returns translation if translation find")
 {
 	Dictionary dictionary;
-	dictionary.insert({ "hamster", "хомяк" });
-	auto word = FindTranslation("hamster", dictionary);
-	CHECK(IsEqual(word, "хомяк"));
+	dictionary.dict.insert({ "hamster", "хомяк" });
+	std::vector<std::string> word = FindTranslation("hamster", dictionary);
+	std::vector<std::string> findVector = { "хомяк" };
+	CHECK(word == findVector);
 }
 
-TEST_CASE("AddTranslation adds a two-way translation to the dictionary")
+TEST_CASE("ToLowerCase transforms word in lower case")
 {
-	Dictionary dictionary;
-	dictionary.clear();
-
-	AddTranslation("cat", "кошка", dictionary);
-	auto word = FindTranslation("cat", dictionary);
-	CHECK(IsEqual(word, "кошка"));
-
-	word = FindTranslation("кошка", dictionary);
-	CHECK(IsEqual(word, "cat"));
+	std::string word = "Cat";
+	ToLowerCase(word);
+	std::string wordInLowerCase = "cat";
+	CHECK(word == wordInLowerCase);
 }
 
-TEST_CASE("AddTranslation does not add a word, if it already exists in the dictionary")
+TEST_CASE("AddNewWord adds a two-way translation to the dictionary") // двухсторонний перевод
 {
 	Dictionary dictionary;
-	dictionary.insert({ "cat", "кошка" });
+	dictionary.dict.clear();
 
-	AddTranslation("cat", "хомяк", dictionary);
-	auto word = FindTranslation("cat", dictionary);
-	CHECK(IsEqual(word, "кошка"));
+	AddNewWord("cat", "кошка", dictionary);
+	std::vector<std::string> word = FindTranslation("cat", dictionary);
+	std::vector<std::string> findVector = { "кошка" };
+	CHECK(word == findVector);
+
+	std::vector<std::string> word = FindTranslation("кошка", dictionary);
+	std::vector<std::string> findVector = { "cat" };
+	CHECK(word == findVector);
+}
+
+// не добавляет слово, если оно уже существует в словаре
+TEST_CASE("AddNewWord does not add a word, if it already exists in the dictionary")
+{
+	Dictionary dictionary;
+	dictionary.dict.insert({ "cat", "кошка" });
+
+	AddNewWord("cat", "хомяк", dictionary);
+	std::vector<std::string> word = FindTranslation("cat", dictionary);
+	std::vector<std::string> findVector = { "кошка" };
+	CHECK(word == findVector);
 }
 
 TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
@@ -57,7 +69,7 @@ TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
 	std::istringstream strm(inputStrm);
 	Dictionary dictionary, newDictionary;
 
-	dictionary = ReadDictionary(strm);
+	ReadDictionary(dictionary);
 
 	CHECK(IsEqualDictionary(dictionary, newDictionary));
 }
@@ -72,9 +84,9 @@ apple
 	std::istringstream strm(inputStrm);
 	Dictionary dictionary, newDictionary;
 
-	dictionary = ReadDictionary(strm);
-	AddTranslation("hello", "привет", newDictionary);
-	AddTranslation("apple", "яблоко", newDictionary);
+	ReadDictionary(dictionary);
+	AddNewWord("hello", "привет", newDictionary);
+	AddNewWord("apple", "яблоко", newDictionary);
 
 	CHECK(IsEqualDictionary(dictionary, newDictionary));
 }
@@ -85,8 +97,8 @@ TEST_CASE("WriteDictionary returns an empty stream if the dictionary is empty")
 	std::string resultStream = "";
 	Dictionary dictionary;
 
-	WriteDictionary(outStrm, dictionary);
-	CHECK(IsEqual(outStrm.str(), resultStream));
+	WriteDictionary(dictionary);
+	CHECK(outStrm.str() == resultStream);
 }
 
 TEST_CASE("WriteDictionary returns a stream from the dictionary")
@@ -103,9 +115,9 @@ apple
 )";
 	Dictionary dictionary;
 
-	AddTranslation("hello", "привет", dictionary);
-	AddTranslation("apple", "яблоко", dictionary);
+	AddNewWord("hello", "привет", dictionary);
+	AddNewWord("apple", "яблоко", dictionary);
 
-	WriteDictionary(outStrm, dictionary);
-	CHECK(IsEqual(outStrm.str(), resultStream));
+	WriteDictionary(dictionary);
+	CHECK(outStrm.str() == resultStream);
 }

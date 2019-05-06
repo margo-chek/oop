@@ -29,7 +29,7 @@ void ProcessInputString(const std::string& inputString, Dictionary& dictionary);
 
 bool HaveSameTranslation(const std::string& word, const std::string& translation, const Dictionary& dictionary);
 
-void AddNewWord(const std::string& inputString, Dictionary& dictionary);
+void AddNewWord(const std::string& word, const std::string& translation, Dictionary& dictionary);
 
 std::vector<std::string> FindTranslation(const std::string& word, const Dictionary& dictionary);
 

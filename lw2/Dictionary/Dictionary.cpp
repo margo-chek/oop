@@ -19,9 +19,7 @@ ifstream OpenFileForReading(const string& fileName)
 
 	if (!strm.is_open())
 		cerr << "Failed to open " << fileName << "\n";
-
-	// ToLowerCase(strm);
-
+	
 	return strm;
 }
 
@@ -132,15 +130,8 @@ void WriteDictionary(const Dictionary& dictionary)
 	}
 }
 
-void AddNewWord(const string& word, Dictionary& dictionary)
+void AddNewWord(const string& word, const string& translation, Dictionary& dictionary)
 {
-	cout << "Неизвестное слово \"" << word << "\". Введите перевод или пустую строку для отказа." << endl;
-	cout << ">";
-	string translation;
-	std::getline(cin, translation);
-
-	ToLowerCase(translation);
-
 	if (!translation.empty())
 	{
 		dictionary.dict.insert({ word, translation });
@@ -166,11 +157,16 @@ void ProcessInputString(const string& inputString, Dictionary& dictionary)
 	}
 	else
 	{
-		AddNewWord(inputString, dictionary);
+		cout << "Неизвестное слово \"" << inputString << "\". Введите перевод или пустую строку для отказа." << endl;
+		string translation = GetUserInput(cin);
+		AddNewWord(inputString, translation, dictionary);
 	}
 }
 
-void SaveDictionary(Dictionary& dictionary)
+/*void SaveDictionary(string inputFileName, istream& input, ostream& output, 
+	const function<void(const string& fileName)>& saver)*/
+
+	void SaveDictionary(Dictionary& dictionary)
 {
 	char exit;
 	cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << endl;
@@ -214,6 +210,5 @@ void ProcessUserInput(const string& userInput, Dictionary& dictionary)
 		return;
 	
 	ProcessInputString(userInput, dictionary);
-
 }
 
