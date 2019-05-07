@@ -58,10 +58,10 @@ TEST_CASE("AddNewWord does not add a word, if it already exists in the dictionar
 	dictionary.dict.clear();
 
 	AddNewWord("cat", "кошка", dictionary);
-	std::size_t ElementsAmount = dictionary.dict.size();
+	size_t elementsAmount = dictionary.dict.size();
 	AddNewWord("cat", "кошка", dictionary);
-	std::size_t DubbleElementsAmount = dictionary.dict.size();
-	CHECK(ElementsAmount == DubbleElementsAmount);
+	size_t dubbleElementsAmount = dictionary.dict.size();
+	CHECK(elementsAmount == dubbleElementsAmount);
 }
 
 TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
