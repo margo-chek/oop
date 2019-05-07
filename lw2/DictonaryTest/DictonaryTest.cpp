@@ -46,12 +46,12 @@ TEST_CASE("AddNewWord adds a two-way translation to the dictionary") // двух
 	std::vector<std::string> findVector = { "кошка" };
 	CHECK(word == findVector);
 
-	std::vector<std::string> word = FindTranslation("кошка", dictionary);
-	std::vector<std::string> findVector = { "cat" };
+	word = FindTranslation("кошка", dictionary);
+	findVector = { "cat" };
 	CHECK(word == findVector);
 }
-
-// не добавляет слово, если оно уже существует в словаре
+/*
+// не добавляет слово, если оно уже существует в словаре !!!
 TEST_CASE("AddNewWord does not add a word, if it already exists in the dictionary")
 {
 	Dictionary dictionary;
@@ -61,7 +61,10 @@ TEST_CASE("AddNewWord does not add a word, if it already exists in the dictionar
 	std::vector<std::string> word = FindTranslation("cat", dictionary);
 	std::vector<std::string> findVector = { "кошка" };
 	CHECK(word == findVector);
-}
+}*/
+/*Создать словарь, потом черед AddNewWord добавить в него слово, потом, через size() проверить количество
+элементов в словаре, потом повторить вставку того же слова через AddNewWord, потом получить количество элементов
+в словаре через size() и сравнить с предыдущим*/
 
 TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
 {
@@ -69,7 +72,7 @@ TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
 	std::istringstream strm(inputStrm);
 	Dictionary dictionary, newDictionary;
 
-	ReadDictionary(dictionary);
+	ReadDictionary(dictionary, strm);
 
 	CHECK(IsEqualDictionary(dictionary, newDictionary));
 }
@@ -84,7 +87,7 @@ apple
 	std::istringstream strm(inputStrm);
 	Dictionary dictionary, newDictionary;
 
-	ReadDictionary(dictionary);
+	ReadDictionary(dictionary, strm);
 	AddNewWord("hello", "привет", newDictionary);
 	AddNewWord("apple", "яблоко", newDictionary);
 
@@ -97,7 +100,7 @@ TEST_CASE("WriteDictionary returns an empty stream if the dictionary is empty")
 	std::string resultStream = "";
 	Dictionary dictionary;
 
-	WriteDictionary(dictionary);
+	WriteDictionary(dictionary, outStrm);
 	CHECK(outStrm.str() == resultStream);
 }
 
@@ -118,6 +121,6 @@ apple
 	AddNewWord("hello", "привет", dictionary);
 	AddNewWord("apple", "яблоко", dictionary);
 
-	WriteDictionary(dictionary);
+	WriteDictionary(dictionary, outStrm);
 	CHECK(outStrm.str() == resultStream);
 }

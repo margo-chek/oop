@@ -37,9 +37,9 @@ bool isUpperCaseCharacter(unsigned char character);
 
 void ToLowerCase(std::string& word);
 
-void ReadDictionary(Dictionary& dictionary);
+void ReadDictionary(Dictionary& dictionary, std::istream& inputFile);
 
-void WriteDictionary(const Dictionary& dictionary);
+void WriteDictionary(const Dictionary& dictionary, std::ostream& outputFile);
 
 void SaveDictionary(Dictionary& dictionary);
 

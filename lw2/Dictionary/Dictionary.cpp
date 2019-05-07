@@ -28,7 +28,8 @@ Dictionary LoadDictionary(const string& fileName)
 	Dictionary dictionary{};
 	dictionary.dictionaryFileName = fileName;
 
-	ReadDictionary(dictionary);
+	ifstream inputFile = OpenFileForReading(dictionary.dictionaryFileName);
+	ReadDictionary(dictionary, inputFile);
 
 	return dictionary;
 }
@@ -97,16 +98,15 @@ void ToLowerCase(string& word)
 	}
 }
 
-void ReadDictionary(Dictionary& dictionary)
+void ReadDictionary(Dictionary& dictionary, istream& inputFile)
 {
-	ifstream inputFile = OpenFileForReading(dictionary.dictionaryFileName);
-
 	string word, translation;
 
 	while (std::getline(inputFile, word) && std::getline(inputFile, translation))
 	{
 		ToLowerCase(word);
 		ToLowerCase(translation);
+
 		if (!HaveSameTranslation(word, translation, dictionary))
 		{
 			dictionary.dict.insert({ word, translation });
@@ -119,10 +119,8 @@ void ReadDictionary(Dictionary& dictionary)
 	}
 }
 
-void WriteDictionary(const Dictionary& dictionary)
+void WriteDictionary(const Dictionary& dictionary, ostream& outputFile)
 {
-	ofstream outputFile(dictionary.dictionaryFileName); 
-
 	for (auto& range : dictionary.dict)
 	{
 		outputFile << range.first << endl
@@ -132,18 +130,24 @@ void WriteDictionary(const Dictionary& dictionary)
 
 void AddNewWord(const string& word, const string& translation, Dictionary& dictionary)
 {
-	if (!translation.empty())
-	{
-		dictionary.dict.insert({ word, translation });
-		dictionary.dict.insert({ translation, word });
-
-		cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translation << "\"." << endl;
-		dictionary.wasEdited = true;
-	}
-	else
+	if (translation.empty())
 	{
 		cout << "Слово \"" << word << "\" проигнорировано." << endl;
 	}
+
+
+	if (!HaveSameTranslation(word, translation, dictionary))
+	{
+		dictionary.dict.insert({ word, translation });
+	}
+
+	if (!HaveSameTranslation(translation, word, dictionary))
+	{
+		dictionary.dict.insert({ translation, word });
+	}
+
+	cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translation << "\"." << endl;
+	dictionary.wasEdited = true;
 }
 
 void ProcessInputString(const string& inputString, Dictionary& dictionary)
@@ -166,7 +170,7 @@ void ProcessInputString(const string& inputString, Dictionary& dictionary)
 /*void SaveDictionary(string inputFileName, istream& input, ostream& output, 
 	const function<void(const string& fileName)>& saver)*/
 
-	void SaveDictionary(Dictionary& dictionary)
+void SaveDictionary(Dictionary& dictionary)
 {
 	char exit;
 	cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << endl;
@@ -183,7 +187,8 @@ void ProcessInputString(const string& inputString, Dictionary& dictionary)
 			cin >> dictionary.dictionaryFileName;
 		}
 
-		WriteDictionary(dictionary);
+		ofstream outputFile(dictionary.dictionaryFileName);
+		WriteDictionary(dictionary, outputFile);
 		cout << "Изменения сохранены. До свидания." << endl;
 	}
 	else
