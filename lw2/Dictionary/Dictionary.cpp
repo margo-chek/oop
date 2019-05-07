@@ -63,22 +63,7 @@ vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
 	return translation;
 	
 }
-/*
-string const ToLower(const string& str)
-{
-	wstring strToTransform = L"str";
-	transform(strToTransform.begin(), strToTransform.end(), strToTransform.begin(), ::tolower);
-	string strToTransform2(strToTransform.begin(), strToTransform.end());
-	return strToTransform2;
-}
 
-string const ToLower(string& str)
-{
-	for_each(str.begin(), str.end(), [](char& strToTransform)
-	{ strToTransform = tolower(static_cast<unsigned char>(strToTransform)); });
-	return strToTransform;
-}
-*/
 bool isUpperCaseCharacter(unsigned char character)
 {
 	return (character >= 0x41 && character <= 0x5A) || (character >= 0xC0 && character <= 0xDF) || character == 0xA8;
