@@ -7,7 +7,7 @@
 
 bool IsEqualDictionary(const Dictionary& x, const Dictionary& y)
 {
-	return x.dict == y.dict && x.dictionaryFileName == y.dictionaryFileName && x.wasEdited == y.wasEdited;
+	return x.dict == y.dict;
 }
 
 TEST_CASE("FindTranslation returns empty vector if no translation")
@@ -50,21 +50,19 @@ TEST_CASE("AddNewWord adds a two-way translation to the dictionary") // двух
 	findVector = { "cat" };
 	CHECK(word == findVector);
 }
-/*
+
 // не добавляет слово, если оно уже существует в словаре !!!
 TEST_CASE("AddNewWord does not add a word, if it already exists in the dictionary")
 {
 	Dictionary dictionary;
-	dictionary.dict.insert({ "cat", "кошка" });
+	dictionary.dict.clear();
 
-	AddNewWord("cat", "хомяк", dictionary);
-	std::vector<std::string> word = FindTranslation("cat", dictionary);
-	std::vector<std::string> findVector = { "кошка" };
-	CHECK(word == findVector);
-}*/
-/*Создать словарь, потом черед AddNewWord добавить в него слово, потом, через size() проверить количество
-элементов в словаре, потом повторить вставку того же слова через AddNewWord, потом получить количество элементов
-в словаре через size() и сравнить с предыдущим*/
+	AddNewWord("cat", "кошка", dictionary);
+	std::size_t ElementsAmount = dictionary.dict.size();
+	AddNewWord("cat", "кошка", dictionary);
+	std::size_t DubbleElementsAmount = dictionary.dict.size();
+	CHECK(ElementsAmount == DubbleElementsAmount);
+}
 
 TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
 {
