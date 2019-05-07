@@ -29,12 +29,12 @@ Dictionary LoadDictionary(const string& fileName)
 	dictionary.dictionaryFileName = fileName;
 
 	ifstream inputFile = OpenFileForReading(dictionary.dictionaryFileName);
-	ReadDictionary(dictionary, inputFile);
+	Dictionary loadDictionary = ReadDictionary(dictionary, inputFile);
 
-	return dictionary;
+	return loadDictionary;
 }
 
-bool HaveSameTranslation(const string& word, const string& translation, const Dictionary& dictionary)
+bool HasSameTranslation(const Dictionary& dictionary, const string& word, const string& translation)
 {
 	auto range = dictionary.dict.equal_range(word);
 	if (distance(range.first, range.second) == 0)
@@ -46,7 +46,7 @@ bool HaveSameTranslation(const string& word, const string& translation, const Di
 }
 
 
-vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
+vector<string> FindTranslation(const Dictionary& dictionary, const string& word)
 {
 	auto rangeWordTranslation = dictionary.dict.equal_range(word);
 
@@ -57,14 +57,14 @@ vector<string> FindTranslation(const string& word, const Dictionary& dictionary)
 
 	vector<string> translation;
 
-	for_each(rangeWordTranslation.first, rangeWordTranslation.second, [&](const auto& currPair) -> void {
+	for_each(rangeWordTranslation.first, rangeWordTranslation.second, [&](const auto& currPair) 
+	{
 		translation.push_back(currPair.second);
 	});
 	return translation;
-	
 }
 
-bool isUpperCaseCharacter(unsigned char character)
+bool IsUpperCaseCharacter(unsigned char character)
 {
 	return (character >= 0x41 && character <= 0x5A) || (character >= 0xC0 && character <= 0xDF) || character == 0xA8;
 }
@@ -75,7 +75,7 @@ void ToLowerCase(string& word)
 	{
 		auto currentCharacter = static_cast<unsigned char>(word[i]);
 
-		if (isUpperCaseCharacter(currentCharacter))
+		if (IsUpperCaseCharacter(currentCharacter))
 		{
 			currentCharacter == 0xA8 ? currentCharacter += 16 : currentCharacter += 32;
 			word[i] = currentCharacter;
@@ -83,7 +83,15 @@ void ToLowerCase(string& word)
 	}
 }
 
-void ReadDictionary(Dictionary& dictionary, istream& inputFile)
+Dictionary InsertIntoDictionary(Dictionary& dictionary, const string& word, const string& translation)
+{
+	if (!HasSameTranslation(dictionary, word, translation))
+	{
+		dictionary.dict.insert({ word, translation });
+	}
+}
+
+Dictionary ReadDictionary(Dictionary& dictionary, istream& inputFile)
 {
 	string word, translation;
 
@@ -92,52 +100,41 @@ void ReadDictionary(Dictionary& dictionary, istream& inputFile)
 		ToLowerCase(word);
 		ToLowerCase(translation);
 
-		if (!HaveSameTranslation(word, translation, dictionary))
-		{
-			dictionary.dict.insert({ word, translation });
-		}
-
-		if (!HaveSameTranslation(translation, word, dictionary))
-		{
-			dictionary.dict.insert({ translation, word });
-		}	
+		InsertIntoDictionary(dictionary, word, translation);
+		InsertIntoDictionary(dictionary, translation, word);	
 	}
+	
+	return dictionary;
 }
+
 
 void WriteDictionary(const Dictionary& dictionary, ostream& outputFile)
 {
-	for (auto& range : dictionary.dict)
+	for (auto& [word, translation] : dictionary.dict)
 	{
-		outputFile << range.first << endl
-				  << range.second << endl;
+		outputFile << word << endl
+				   << translation << endl;
 	}
 }
 
-void AddNewWord(const string& word, const string& translation, Dictionary& dictionary)
+void AddNewWord(Dictionary& dictionary, const string& word, const string& translation)
 {
 	if (translation.empty())
 	{
 		cout << "Слово \"" << word << "\" проигнорировано." << endl;
 	}
 
-
-	if (!HaveSameTranslation(word, translation, dictionary))
-	{
-		dictionary.dict.insert({ word, translation });
-	}
-
-	if (!HaveSameTranslation(translation, word, dictionary))
-	{
-		dictionary.dict.insert({ translation, word });
-	}
+	InsertIntoDictionary(dictionary, word, translation);
+	InsertIntoDictionary(dictionary, translation, word);
 
 	cout << "Слово \"" << word << "\" сохранено в словаре как \"" << translation << "\"." << endl;
-	dictionary.wasEdited = true;
+	dictionary.wasUpdated = true;
 }
+
 
 void ProcessInputString(const string& inputString, Dictionary& dictionary)
 {
-	vector<string> foundWords = FindTranslation(inputString, dictionary); 
+	vector<string> foundWords = FindTranslation(dictionary, inputString); 
 
 	if (!foundWords.empty())
 	{
@@ -148,7 +145,7 @@ void ProcessInputString(const string& inputString, Dictionary& dictionary)
 	{
 		cout << "Неизвестное слово \"" << inputString << "\". Введите перевод или пустую строку для отказа." << endl;
 		string translation = GetUserInput(cin);
-		AddNewWord(inputString, translation, dictionary);
+		AddNewWord(dictionary, inputString, translation);
 	}
 }
 
@@ -196,9 +193,8 @@ string GetUserInput(istream& inputStream)
 
 void ProcessUserInput(const string& userInput, Dictionary& dictionary)
 {
-	if (userInput == "..." || userInput == "")
+	if (userInput == "...")
 		return;
 	
 	ProcessInputString(userInput, dictionary);
 }
-

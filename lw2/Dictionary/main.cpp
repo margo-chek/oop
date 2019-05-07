@@ -32,7 +32,7 @@ int main(int argc, const char* argv[])
 		ProcessUserInput(inputString, dictionary);
 	}
 
-	if (dictionary.wasEdited)
+	if (dictionary.wasUpdated)
 	{
 		SaveDictionary(dictionary);
 	}

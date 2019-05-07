@@ -12,11 +12,11 @@
 
 struct Dictionary
 {
-	std::multimap<std::string, std::string> dict = {};
+	std::multimap<std::string, std::string> dict; 
 
 	std::string dictionaryFileName;
 
-	bool wasEdited = false;
+	bool wasUpdated = false;
 };
 
 std::string ParseCommandLine(const int argsCount, const char* argsVector[]);
@@ -27,17 +27,17 @@ Dictionary LoadDictionary(const std::string& fileName);
 
 void ProcessInputString(const std::string& inputString, Dictionary& dictionary);
 
-bool HaveSameTranslation(const std::string& word, const std::string& translation, const Dictionary& dictionary);
+bool HasSameTranslation(const Dictionary& dictionary, const std::string& word, const std::string& translation);
 
-void AddNewWord(const std::string& word, const std::string& translation, Dictionary& dictionary);
+void AddNewWord(Dictionary& dictionary, const std::string& word, const std::string& translation);
 
-std::vector<std::string> FindTranslation(const std::string& word, const Dictionary& dictionary);
+std::vector<std::string> FindTranslation(const Dictionary& dictionary, const std::string& word);
 
-bool isUpperCaseCharacter(unsigned char character);
+bool IsUpperCaseCharacter(unsigned char character);
 
 void ToLowerCase(std::string& word);
 
-void ReadDictionary(Dictionary& dictionary, std::istream& inputFile);
+Dictionary ReadDictionary(Dictionary& dictionary, std::istream& inputFile);
 
 void WriteDictionary(const Dictionary& dictionary, std::ostream& outputFile);
 
