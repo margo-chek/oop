@@ -20,8 +20,8 @@ void ProcessInputString(const string& inputString, CDictionary& dictionary)
 
 	if (!foundWords.empty())
 	{
-		copy(foundWords.begin(), foundWords.end(), ostream_iterator<string>(cout, " "));
-		cout << endl;
+		copy(foundWords.begin(), foundWords.end() - 1, ostream_iterator<string>(cout, ", "));
+		cout << foundWords.back() << endl;
 	}
 	else
 	{

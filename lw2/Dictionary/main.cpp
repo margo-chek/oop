@@ -24,7 +24,7 @@ int main(int argc, const char* argv[])
 		return 1;
 	}
 
-	CDictionary dictionary = new CDictionary(fileName);
+	CDictionary dictionary(fileName);
 
 	string inputString;
 	while (inputString != "...")
