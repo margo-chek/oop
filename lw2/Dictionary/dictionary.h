@@ -1,40 +1,38 @@
+#pragma once
+#include <algorithm>
+#include <fstream>
+#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <algorithm>
-#include <fstream>
 
-class ÑDictionary
+class CDictionary
 {
-	public:
+public:
+	CDictionary(const std::string& fileName);
 
-		ÑDictionary(const std::string& fileName);
+	void AddNewWord(const std::string& word, const std::string& translation);
 
-		void AddNewWord(const std::string& word, const std::string& translation);
+	std::vector<std::string> FindTranslation(const std::string& word);
 
-		std::vector<std::string> FindTranslation(const std::string& word);
+	void SaveDictionary();
 
-		void SaveDictionary();
+	bool GetWasUpdatedFlag();
 
-		bool GetWasUpdatedFlag();
+private:
+	std::multimap<std::string, std::string> m_dict;
 
-	private:
+	std::string m_dictionaryFileName;
 
-		std::multimap<std::string, std::string> m_dict;
+	bool m_wasUpdated = false;
 
-		std::string m_dictionaryFileName;
+	void InsertIntoDictionary(const std::string& word, const std::string& translation);
 
-		bool m_wasUpdated = false;
+	bool HasSameTranslation(const std::string& word, const std::string& translation);
 
-		void InsertIntoDictionary(const std::string& word, const std::string& translation);
+	void WriteDictionary(std::ostream& outputFile);
 
-		bool HasSameTranslation(const std::string& word, const std::string& translation);
-
-		void WriteDictionary(std::ostream& outputFile);
-
-		void ReadDictionary(std::istream& inputFile);
-
+	void ReadDictionary(std::istream& inputFile);
 };
 
 bool IsUpperCaseCharacter(unsigned char character);
@@ -42,4 +40,3 @@ bool IsUpperCaseCharacter(unsigned char character);
 void ToLowerCase(std::string& word);
 
 std::ifstream OpenFileForReading(const std::string& fileName);
-
