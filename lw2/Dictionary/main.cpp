@@ -1,5 +1,7 @@
 #include "pch.h"
-#include "dictionary.h"
+#include "Dictionary.h"
+#include "functions.h"
+#include <Windows.h>
 
 
 using namespace std;
@@ -10,13 +12,10 @@ int main(int argc, const char* argv[])
 	SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
 
 	string fileName;
-	Dictionary dictionary{};
 
 	try
 	{
 		fileName = ParseCommandLine(argc, argv);
-
-		dictionary = LoadDictionary(fileName);
 	}
 	catch (const invalid_argument& err)
 	{
@@ -25,16 +24,24 @@ int main(int argc, const char* argv[])
 		return 1;
 	}
 
+	CDictionary dictionary = new CDictionary(fileName);
+
 	string inputString;
 	while (inputString != "...")
 	{
+		if (cin.eof())
+		{
+			cin.clear();
+		}
+
 		inputString = GetUserInput(cin);
+		// cin.clear();
 		ProcessUserInput(inputString, dictionary);
 	}
 
-	if (dictionary.wasUpdated)
+	if (dictionary.GetWasUpdatedFlag())
 	{
-		SaveDictionary(dictionary);
+		SaveDictionary();
 	}
 	else
 	{

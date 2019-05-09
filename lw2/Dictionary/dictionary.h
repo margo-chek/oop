@@ -1,48 +1,45 @@
-#pragma once
-#include <Windows.h>
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <istream>
-#include <iterator>
 #include <map>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <algorithm>
+#include <fstream>
 
-
-struct Dictionary
+class ÑDictionary
 {
-	std::multimap<std::string, std::string> dict; 
+	public:
 
-	std::string dictionaryFileName;
+		ÑDictionary(const std::string& fileName);
 
-	bool wasUpdated = false;
+		void AddNewWord(const std::string& word, const std::string& translation);
+
+		std::vector<std::string> FindTranslation(const std::string& word);
+
+		void SaveDictionary();
+
+		bool GetWasUpdatedFlag();
+
+	private:
+
+		std::multimap<std::string, std::string> m_dict;
+
+		std::string m_dictionaryFileName;
+
+		bool m_wasUpdated = false;
+
+		void InsertIntoDictionary(const std::string& word, const std::string& translation);
+
+		bool HasSameTranslation(const std::string& word, const std::string& translation);
+
+		void WriteDictionary(std::ostream& outputFile);
+
+		void ReadDictionary(std::istream& inputFile);
+
 };
-
-std::string ParseCommandLine(const int argsCount, const char* argsVector[]);
-
-std::ifstream OpenFileForReading(const std::string& fileName);
-
-Dictionary LoadDictionary(const std::string& fileName);
-
-void ProcessInputString(const std::string& inputString, Dictionary& dictionary);
-
-bool HasSameTranslation(const Dictionary& dictionary, const std::string& word, const std::string& translation);
-
-void AddNewWord(Dictionary& dictionary, const std::string& word, const std::string& translation);
-
-std::vector<std::string> FindTranslation(const Dictionary& dictionary, const std::string& word);
 
 bool IsUpperCaseCharacter(unsigned char character);
 
 void ToLowerCase(std::string& word);
 
-Dictionary ReadDictionary(Dictionary& dictionary, std::istream& inputFile);
+std::ifstream OpenFileForReading(const std::string& fileName);
 
-void WriteDictionary(const Dictionary& dictionary, std::ostream& outputFile);
-
-void SaveDictionary(Dictionary& dictionary);
-
-std::string GetUserInput(std::istream& inputStream);
-
-void ProcessUserInput(const std::string& userInput, Dictionary& dictionary);
