@@ -14,6 +14,17 @@ string ParseCommandLine(const int argsCount, const char* argsVector[])
 }
 
 
+ifstream OpenFileForReading(const string& fileName)
+{
+	ifstream strm(fileName);
+
+	if (!strm.is_open())
+		cerr << "Failed to open " << fileName << "\n";
+
+	return strm;
+}
+
+
 void ProcessInputString(const string& inputString, CDictionary& dictionary)
 {
 	vector<string> foundWords = dictionary.FindTranslation(inputString);

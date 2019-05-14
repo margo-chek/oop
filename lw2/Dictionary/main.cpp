@@ -3,7 +3,6 @@
 #include "functions.h"
 #include <Windows.h>
 
-
 using namespace std;
 
 int main(int argc, const char* argv[])
@@ -12,19 +11,18 @@ int main(int argc, const char* argv[])
 	SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
 
 	string fileName;
+	CDictionary dictionary;
 
 	try
 	{
 		fileName = ParseCommandLine(argc, argv);
+		ifstream inputStream = OpenFileForReading(fileName);
+		dictionary = CDictionary(fileName, inputStream);
 	}
 	catch (const invalid_argument& err)
 	{
 		cout << err.what() << endl;
-
-		return 1;
 	}
-
-	CDictionary dictionary(fileName);
 
 	string inputString;
 	while (inputString != "...")

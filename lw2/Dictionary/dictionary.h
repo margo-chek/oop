@@ -9,17 +9,26 @@
 class CDictionary
 {
 public:
-	CDictionary(const std::string& fileName);
 
+	CDictionary() = default;
+
+	CDictionary(const std::string& fileName, std::istream& inputStream);
+
+	std::multimap<std::string, std::string> GetDict() const;
+	std::string GetFileName() const;
+	
 	void AddNewWord(const std::string& word, const std::string& translation);
 
 	std::vector<std::string> FindTranslation(const std::string& word);
 
 	void SaveDictionary();
 
-	bool GetWasUpdatedFlag();
+	bool GetWasUpdatedFlag() const;
+
+	bool HasSameTranslation(const std::string& word, const std::string& translation) const;
 
 private:
+
 	std::multimap<std::string, std::string> m_dict;
 
 	std::string m_dictionaryFileName;
@@ -28,9 +37,7 @@ private:
 
 	void InsertIntoDictionary(const std::string& word, const std::string& translation);
 
-	bool HasSameTranslation(const std::string& word, const std::string& translation);
-
-	void WriteDictionary(std::ostream& outputFile);
+	// void WriteDictionary(std::ostream& outputFile);
 
 	void ReadDictionary(std::istream& inputFile);
 };

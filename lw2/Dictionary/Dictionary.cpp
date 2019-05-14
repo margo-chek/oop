@@ -3,12 +3,11 @@
 
 using namespace std;
 
-CDictionary::CDictionary(const string& fileName)
+CDictionary::CDictionary(const string& fileName, istream& inputStream)
 {
 	m_dictionaryFileName = fileName;
 
-	ifstream inputFile = OpenFileForReading(fileName);
-	ReadDictionary(inputFile);
+	ReadDictionary(inputStream);
 
 }
 
@@ -64,7 +63,7 @@ void CDictionary::SaveDictionary()
 		}
 
 		ofstream outputFile(m_dictionaryFileName);
-		WriteDictionary(outputFile);
+		// WriteDictionary(outputFile);
 		cout << "Изменения сохранены. До свидания." << endl;
 	}
 	else
@@ -73,7 +72,7 @@ void CDictionary::SaveDictionary()
 	}
 }
 
-bool CDictionary::GetWasUpdatedFlag()
+bool CDictionary::GetWasUpdatedFlag() const
 {
 	return m_wasUpdated;
 }
@@ -88,7 +87,7 @@ void CDictionary::InsertIntoDictionary(const string& word, const string& transla
 }
 
 
-bool CDictionary::HasSameTranslation(const string& word, const string& translation)
+bool CDictionary::HasSameTranslation(const string& word, const string& translation) const
 {
 	auto range = m_dict.equal_range(word);
 	if (distance(range.first, range.second) == 0)
@@ -100,14 +99,14 @@ bool CDictionary::HasSameTranslation(const string& word, const string& translati
 }
 
 
-void CDictionary::WriteDictionary(ostream& outputFile)
+/*void CDictionary::WriteDictionary(ostream& outputFile)
 {
 	for (auto& [word, translation] : m_dict)
 	{
 		outputFile << word << endl
 				   << translation << endl;
 	}
-}
+}*/
 
 void CDictionary::ReadDictionary(istream& inputFile)
 {
@@ -143,12 +142,3 @@ void ToLowerCase(string& word)
 	}
 }
 
-ifstream OpenFileForReading(const string& fileName)
-{
-	ifstream strm(fileName);
-
-	if (!strm.is_open())
-		cerr << "Failed to open " << fileName << "\n";
-
-	return strm;
-}

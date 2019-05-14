@@ -1,29 +1,29 @@
 ﻿#include "pch.h"
-// #include "../Dictionary/Dictionary.h"
+#include "../Dictionary/Dictionary.h"
 #include <sstream>
 #include <string>
 #include <vector>
 #include <map>
 
-bool IsEqualDictionary(const Dictionary& x, const Dictionary& y)
+bool IsEqualDictionary(const CDictionary& x, const CDictionary& y)
 {
-	return x.dict == y.dict;
+	return x.m_dict == y.m_dict;
 }
 
 TEST_CASE("FindTranslation returns empty vector if no translation")
 {
-	Dictionary dictionary;
-	dictionary.dict.insert({ "hamster", "хомяк" });
-	std::vector<std::string> word = FindTranslation("cat", dictionary);
+	CDictionary dictionary;
+	dictionary.m_dict.insert({ "hamster", "хомяк" });
+	std::vector<std::string> word = dictionary.FindTranslation("cat");
 	std::vector<std::string> emptyVector;
 	CHECK(word == emptyVector);
 }
 
 TEST_CASE("FindTranslation returns translation if translation find")
 {
-	Dictionary dictionary;
+	CDictionary dictionary;
 	dictionary.dict.insert({ "hamster", "хомяк" });
-	std::vector<std::string> word = FindTranslation("hamster", dictionary);
+	std::vector<std::string> word = dictionary.FindTranslation("hamster");
 	std::vector<std::string> findVector = { "хомяк" };
 	CHECK(word == findVector);
 }
@@ -38,15 +38,15 @@ TEST_CASE("ToLowerCase transforms word in lower case")
 
 TEST_CASE("AddNewWord adds a two-way translation to the dictionary") // двухсторонний перевод
 {
-	Dictionary dictionary;
-	dictionary.dict.clear();
+	CDictionary dictionary;
+	dictionary.m_dict.clear();
 
-	AddNewWord("cat", "кошка", dictionary);
-	std::vector<std::string> word = FindTranslation("cat", dictionary);
+	dictionary.AddNewWord("cat", "кошка");
+	std::vector<std::string> word = dictionary.FindTranslation("cat");
 	std::vector<std::string> findVector = { "кошка" };
 	CHECK(word == findVector);
 
-	word = FindTranslation("кошка", dictionary);
+	word = dictionary.FindTranslation("кошка");
 	findVector = { "cat" };
 	CHECK(word == findVector);
 }
@@ -54,12 +54,12 @@ TEST_CASE("AddNewWord adds a two-way translation to the dictionary") // двух
 // не добавляет слово, если оно уже существует в словаре !!!
 TEST_CASE("AddNewWord does not add a word, if it already exists in the dictionary")
 {
-	Dictionary dictionary;
+	CDictionary dictionary;
 	dictionary.dict.clear();
 
-	AddNewWord("cat", "кошка", dictionary);
+	dictionary.AddNewWord("cat", "кошка");
 	size_t elementsAmount = dictionary.dict.size();
-	AddNewWord("cat", "кошка", dictionary);
+	dictionary.AddNewWord("cat", "кошка");
 	size_t dubbleElementsAmount = dictionary.dict.size();
 	CHECK(elementsAmount == dubbleElementsAmount);
 }
@@ -68,9 +68,9 @@ TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
 {
 	std::string inputStrm = "";
 	std::istringstream strm(inputStrm);
-	Dictionary dictionary, newDictionary;
+	CDictionary dictionary, newDictionary;// ??
 
-	ReadDictionary(dictionary, strm);
+	dictionary.ReadDictionary(dictionary, strm); //?? 
 
 	CHECK(IsEqualDictionary(dictionary, newDictionary));
 }
@@ -83,11 +83,11 @@ apple
 яблоко
 )";
 	std::istringstream strm(inputStrm);
-	Dictionary dictionary, newDictionary;
+	CDictionary dictionary, newDictionary;
 
-	ReadDictionary(dictionary, strm);
-	AddNewWord("hello", "привет", newDictionary);
-	AddNewWord("apple", "яблоко", newDictionary);
+	dictionary.ReadDictionary(dictionary, strm);// ??
+	dictionary.AddNewWord("hello", "привет");
+	dictionary.AddNewWord("apple", "яблоко");
 
 	CHECK(IsEqualDictionary(dictionary, newDictionary));
 }
@@ -96,9 +96,9 @@ TEST_CASE("WriteDictionary returns an empty stream if the dictionary is empty")
 {
 	std::ostringstream outStrm;
 	std::string resultStream = "";
-	Dictionary dictionary;
+	CDictionary dictionary;
 
-	WriteDictionary(dictionary, outStrm);
+	dictionary.WriteDictionary(dictionary, outStrm);// ??
 	CHECK(outStrm.str() == resultStream);
 }
 
@@ -114,11 +114,11 @@ hello
 яблоко
 apple
 )";
-	Dictionary dictionary;
+	CDictionary dictionary;
 
-	AddNewWord("hello", "привет", dictionary);
-	AddNewWord("apple", "яблоко", dictionary);
+	dictionary.AddNewWord("hello", "привет");
+	Adictionary.ddNewWord("apple", "яблоко");
 
-	WriteDictionary(dictionary, outStrm);
+	dictionary.WriteDictionary(dictionary, outStrm);// ??
 	CHECK(outStrm.str() == resultStream);
 }
