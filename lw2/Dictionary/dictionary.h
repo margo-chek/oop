@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <functional>
 
 class CDictionary
 {
@@ -21,7 +22,8 @@ public:
 
 	std::vector<std::string> FindTranslation(const std::string& word);
 
-	void SaveDictionary();
+	void SaveDictionary(std::istream& inputStream, std::ostream& outputStream,
+		const std::function<void(const std::multimap<std::string, std::string>& dict, const std::string& fileName)>& saverFunc);
 
 	bool GetWasUpdatedFlag() const;
 

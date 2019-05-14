@@ -45,32 +45,35 @@ vector<string> CDictionary::FindTranslation(const string& word)
 	return translation;
 }
 
-void CDictionary::SaveDictionary()
+
+void CDictionary::SaveDictionary(istream& inputStream, ostream& outputStream,
+	const function<void(const multimap<string, string>& dict, const string& fileName)>& saverFunc)
 {
 	char exit;
-	cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << endl;
+	outputStream << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << endl;
 
-	cout << ">";
-	cin >> exit;
+	outputStream << ">";
+	inputStream >> exit;
 
 	if ((exit == 'Y') || (exit == 'y'))
 	{
 		if (m_dictionaryFileName.empty())
 		{
-			cout << "Введите название словаря." << endl;
-			cout << ">";
-			cin >> m_dictionaryFileName;
+			outputStream << "Введите название словаря." << endl;
+			outputStream << ">";
+			inputStream >> m_dictionaryFileName;
 		}
 
-		ofstream outputFile(m_dictionaryFileName);
-		// WriteDictionary(outputFile);
-		cout << "Изменения сохранены. До свидания." << endl;
+		saverFunc(m_dict, m_dictionaryFileName);
+		outputStream << "Изменения сохранены. До свидания." << endl;
 	}
 	else
 	{
-		cout << "Изменения не сохранены. До свидания." << endl;
+		outputStream << "Изменения не сохранены. До свидания." << endl;
 	}
 }
+
+
 
 bool CDictionary::GetWasUpdatedFlag() const
 {

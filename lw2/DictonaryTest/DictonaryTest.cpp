@@ -98,7 +98,7 @@ TEST_CASE("WriteDictionary returns an empty stream if the dictionary is empty")
 	std::string resultStream = "";
 	CDictionary dictionary;
 
-	dictionary.WriteDictionary(dictionary, outStrm);// ??
+	dictionary.WriteDictionary(dictionary, outStrm);// нет??
 	CHECK(outStrm.str() == resultStream);
 }
 
@@ -119,6 +119,6 @@ apple
 	dictionary.AddNewWord("hello", "привет");
 	Adictionary.ddNewWord("apple", "яблоко");
 
-	dictionary.WriteDictionary(dictionary, outStrm);// ??
+	dictionary.WriteDictionary(dictionary, outStrm);// нет??
 	CHECK(outStrm.str() == resultStream);
 }
