@@ -122,3 +122,18 @@ apple
 	dictionary.WriteDictionary(dictionary, outStrm);// нет??
 	CHECK(outStrm.str() == resultStream);
 }
+
+SCENARIO("Dictionary saving")
+{
+	stringstream input;
+	stringstream output;
+	input << "Y";
+	string outputFileName;
+	SaveDictionary("dictionary1.txt", input, output, [&outputFileName](const string& name) {
+		outputFileName = name;
+	});
+	CHECK(input.eof());
+	CHECK(outputFileName == "dictionary1.txt");
+	CHECK(output.str() == "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом\n"
+						  "Изменения сохранены. До свидания.\n");
+}

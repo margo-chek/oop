@@ -39,7 +39,15 @@ int main(int argc, const char* argv[])
 
 	if (dictionary.GetWasUpdatedFlag())
 	{
-		dictionary.SaveDictionary();
+		dictionary.SaveDictionary(cin, cout, [](const multimap<string, string>& dict, const string& fileName) -> void {
+			ofstream outputFile(fileName);
+			for (auto& [word, translation] : dict)
+			{
+				outputFile << word << endl
+					 << translation << endl;
+			}
+		});
+		
 	}
 	else
 	{
@@ -48,4 +56,3 @@ int main(int argc, const char* argv[])
 
 	return 0;
 }
-
