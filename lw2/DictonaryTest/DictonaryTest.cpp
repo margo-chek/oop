@@ -14,8 +14,8 @@ void ExpectOperationSuccess(CDictionary& dictionary, const function<bool(CDictio
 	CHECK(op(dictionary));
 	CHECK(dictionary.GetDict() == expectedDict);
 	CHECK(dictionary.GetFileName() == expectedFileName);
-	CHECK(dictionary.AddNewWord(...) == expectedAddNewWord);
-	CHECK(dictionary.FindTranslation(...) == expectedFindTranslation);
+	CHECK(dictionary.AddNewWord("cat", "кот") == expectedAddNewWord);
+	CHECK(dictionary.FindTranslation("cat") == expectedFindTranslation);
 	CHECK(dictionary.SaveDictionary(...) == expectedSaveDictionary);
 }
 
@@ -148,11 +148,13 @@ apple
 
 SCENARIO("Dictionary saving")
 {
+	CDictionary dictionary;
+	
 	stringstream input;
 	stringstream output;
 	input << "Y";
 	string outputFileName;
-	SaveDictionary("dictionary1.txt", input, output, [&outputFileName](const string& name) {
+	dictionary.SaveDictionary("dictionary1.txt", input, output, [&outputFileName](const string& name) {
 		outputFileName = name;
 	});
 	CHECK(input.eof());
