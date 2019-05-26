@@ -5,45 +5,66 @@
 #include <vector>
 #include <map>
 
-bool IsEqualDictionary(const CDictionary& x, const CDictionary& y)
+using namespace std;
+
+void ExpectOperationSuccess(CDictionary& dictionary, const function<bool(CDictionary& dictionary)>& op, multimap<string, string> expectedDict,
+	string expectedFileName, void expectedAddNewWord(const string& word, const string& translation), vector<string> expectedFindTranslation(const string& word),
+	void expectedSaveDictionary(istream& inputStream, ostream& outputStream, const function<void(const multimap<string, string>& dict, const string& fileName)>& saverFunc))
 {
-	return x.m_dict == y.m_dict;
+	CHECK(op(dictionary));
+	CHECK(dictionary.GetDict() == expectedDict);
+	CHECK(dictionary.GetFileName() == expectedFileName);
+	CHECK(dictionary.AddNewWord(...) == expectedAddNewWord);
+	CHECK(dictionary.FindTranslation(...) == expectedFindTranslation);
+	CHECK(dictionary.SaveDictionary(...) == expectedSaveDictionary);
+}
+
+void ExpectOperationFailure(const CDictionary& dictionary, const function<bool(CDictionary& dictionary)>& op)
+{
+	auto clone(dictionary);
+	CHECK(!op(clone));
+	CHECK(clone.GetDict() == dictionary.GetDict());
+	CHECK(clone.GetFileName() == dictionary.GetFileName());
+	CHECK(clone.AddNewWord(...) == dictionary.AddNewWord(...));
+	CHECK(clone.FindTranslation(...) == dictionary.FindTranslation(...));
+	CHECK(clone.SaveDictionary(...) == dictionary.SaveDictionary(...));
+}
+
+TEST_CASE("ToLowerCase transforms word in lower case")
+{
+	string word = "Cat";
+	ToLowerCase(word);
+	string wordInLowerCase = "cat";
+	CHECK(word == wordInLowerCase);
 }
 
 TEST_CASE("FindTranslation returns empty vector if no translation")
 {
 	CDictionary dictionary;
-	dictionary.m_dict.insert({ "hamster", "хомяк" });
-	std::vector<std::string> word = dictionary.FindTranslation("cat");
-	std::vector<std::string> emptyVector;
+	dictionary.GetDict.insert({ "hamster", "хомяк" });
+	vector<string> word = dictionary.FindTranslation("cat");
+	vector<string> emptyVector;
 	CHECK(word == emptyVector);
 }
 
 TEST_CASE("FindTranslation returns translation if translation find")
 {
 	CDictionary dictionary;
-	dictionary.dict.insert({ "hamster", "хомяк" });
-	std::vector<std::string> word = dictionary.FindTranslation("hamster");
-	std::vector<std::string> findVector = { "хомяк" };
+	dictionary.GetDict.insert({ "hamster", "хомяк" });
+	vector<string> word = dictionary.FindTranslation("hamster");
+	vector<string> findVector = { "хомяк" };
 	CHECK(word == findVector);
 }
 
-TEST_CASE("ToLowerCase transforms word in lower case")
-{
-	std::string word = "Cat";
-	ToLowerCase(word);
-	std::string wordInLowerCase = "cat";
-	CHECK(word == wordInLowerCase);
-}
 
 TEST_CASE("AddNewWord adds a two-way translation to the dictionary") // двухсторонний перевод
 {
 	CDictionary dictionary;
-	dictionary.m_dict.clear();
+	dictionary.GetDict.clear();
 
 	dictionary.AddNewWord("cat", "кошка");
-	std::vector<std::string> word = dictionary.FindTranslation("cat");
-	std::vector<std::string> findVector = { "кошка" };
+	vector<string> word = dictionary.FindTranslation("cat");
+	vector<string> findVector = { "кошка" };
 	CHECK(word == findVector);
 
 	word = dictionary.FindTranslation("кошка");
@@ -55,19 +76,20 @@ TEST_CASE("AddNewWord adds a two-way translation to the dictionary") // двух
 TEST_CASE("AddNewWord does not add a word, if it already exists in the dictionary")
 {
 	CDictionary dictionary;
-	dictionary.dict.clear();
+	dictionary.GetDict.clear();
 
 	dictionary.AddNewWord("cat", "кошка");
-	size_t elementsAmount = dictionary.dict.size();
+	size_t elementsAmount = dictionary.GetDict.size();
 	dictionary.AddNewWord("cat", "кошка");
-	size_t dubbleElementsAmount = dictionary.dict.size();
+	size_t dubbleElementsAmount = dictionary.GetDict.size();
 	CHECK(elementsAmount == dubbleElementsAmount);
 }
 
 TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
 {
-	std::string inputStrm = "";
-	std::istringstream strm(inputStrm);
+	CDictionary dictionary;
+	string inputStrm = "";
+	istringstream strm(inputStrm);
 	CDictionary dictionary, newDictionary;// ??
 
 	dictionary.ReadDictionary(dictionary, strm); //?? 
@@ -77,12 +99,13 @@ TEST_CASE("ReadDictionary returns an empty dictionary if the stream is empty")
 
 TEST_CASE("ReadDictionary returns a dictionary from the input stream")
 {
-	std::string inputStrm = R"(hello
+	CDictionary dictionary;
+	string inputStrm = R"(hello
 привет
 apple
 яблоко
 )";
-	std::istringstream strm(inputStrm);
+	istringstream strm(inputStrm);
 	CDictionary dictionary, newDictionary;
 
 	dictionary.ReadDictionary(dictionary, strm);// ??
@@ -94,8 +117,8 @@ apple
 
 TEST_CASE("WriteDictionary returns an empty stream if the dictionary is empty")
 {
-	std::ostringstream outStrm;
-	std::string resultStream = "";
+	ostringstream outStrm;
+	string resultStream = "";
 	CDictionary dictionary;
 
 	dictionary.WriteDictionary(dictionary, outStrm);// нет??
@@ -104,8 +127,8 @@ TEST_CASE("WriteDictionary returns an empty stream if the dictionary is empty")
 
 TEST_CASE("WriteDictionary returns a stream from the dictionary")
 {
-	std::ostringstream outStrm;
-	std::string resultStream = R"(apple
+	ostringstream outStrm;
+	string resultStream = R"(apple
 яблоко
 hello
 привет
